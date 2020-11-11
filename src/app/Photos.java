@@ -38,6 +38,7 @@ public class Photos extends Application {
 		Scene scene = new Scene(root, 600, 420);
 		//make scene primary stage - dont make resizable
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("Login");
 		primaryStage.show(); 
 		primaryStage.setResizable(false);
 	}

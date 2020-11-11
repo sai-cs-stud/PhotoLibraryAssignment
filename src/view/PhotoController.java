@@ -68,11 +68,13 @@ public class PhotoController {
 	
 	
 	private void AdminStage() throws IOException {
+		mainStage.hide();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/admin.fxml"));
 	    Stage adminStage = (Stage)loader.load();
 	    AdminController adminController = 
 				loader.getController();
-		adminController.start(mainStage);
+	    adminStage.setTitle("Admin menu");
+		adminController.start(adminStage);
 	    adminStage.show();
 	   
 	    
