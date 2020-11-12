@@ -9,6 +9,7 @@ import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,6 +23,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 @SuppressWarnings("unused")
 public class AdminController {
@@ -115,8 +117,18 @@ public class AdminController {
 			catch(IOException e) {
 				e.printStackTrace();
 			}
+		
+		mainStage.setOnCloseRequest(new EventHandler<WindowEvent>(){
+			public void handle(WindowEvent we) {
+				try {
+					writeToTextFile("userData.txt", obsList);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			
-			
+			}
+		});
 
 
 	}
@@ -150,5 +162,7 @@ public class AdminController {
         }
         writer.close();
     }
+	
+	
 
 }
