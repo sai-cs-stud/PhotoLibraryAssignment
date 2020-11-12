@@ -46,11 +46,13 @@ public class PhotoController {
 				}
 			line = reader.readLine();
 			}
+			reader.close();
 			if(reader==null) {
 				System.out.println("Error: no userData.txt file found");
 				System.out.println("userData.txt must be in the project folder");
 			}
 		}
+		
 			
 			catch (IOException e) {
 				e.printStackTrace();
