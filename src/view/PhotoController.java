@@ -63,7 +63,7 @@ public class PhotoController {
 	
 	public void start(Stage mainStage) {  
 	    this.mainStage = mainStage;
-
+	    
 	
 	
 	}

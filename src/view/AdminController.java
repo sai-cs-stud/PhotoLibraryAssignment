@@ -2,7 +2,9 @@ package view;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Optional;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,10 +12,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -40,8 +45,48 @@ public class AdminController {
 	@FXML
 	protected void buttonPress(ActionEvent event) throws IOException {
 		Button b = (Button)event.getSource();
+		Boolean newuser = true;
 		if (b == logout) {
+			writeToTextFile("userData.txt", obsList);
 			LoginStage(mainStage);
+			
+		}
+		else if(b == createuserbutton) {
+			String userinput = userinputbar.getText();
+			if (userinput.trim().isEmpty()) {
+				
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("error!");
+				alert.setContentText("You cannot create a user with no name!");
+				alert.showAndWait();
+			}
+			else {
+				for(int i=0; i<obsList.size(); i++)
+					if(obsList.get(i).equals(userinput)) {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("error!");
+						alert.setContentText("This username already exists");
+						alert.showAndWait();
+						newuser = false;
+						break;
+					}
+				}
+				if(newuser == true) {
+					obsList.add(userinput);
+				}
+				
+			}
+		else if(b == deleteuserbutton) {
+			int index = listview.getSelectionModel().getSelectedIndex();
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("delete user?");
+			String message = ("Are you sure you want to remove " + obsList.get(index) + " from the system?");
+			alert.setContentText(message);
+			Optional<ButtonType> result = alert.showAndWait();
+			if((result.isPresent()) && (result.get() == ButtonType.OK)) {
+				obsList.remove(index);
+			
+			}
 		}
 	
 	
@@ -51,6 +96,7 @@ public class AdminController {
 	public void start(Stage mainStage) {
 		this.mainStage = mainStage;
 		obsList = FXCollections.observableArrayList();
+	
 		
 		try{
 			BufferedReader reader = new BufferedReader(new FileReader("userData.txt"));
@@ -63,7 +109,7 @@ public class AdminController {
 			System.out.println(obsList);
 			listview.setItems(obsList);
 			listview.getSelectionModel().select(0);
-
+			reader.close();
 			
 			}
 			catch(IOException e) {
@@ -94,5 +140,15 @@ public class AdminController {
 		primaryStage.setResizable(false);
 
 	}
+	
+	private static void writeToTextFile(String filename, ObservableList<String> users)
+            throws IOException {
+
+        FileWriter writer = new FileWriter(filename);
+        for (String user : users) {
+            writer.write(user + "\n");
+        }
+        writer.close();
+    }
 
 }
