@@ -4,10 +4,13 @@ import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
@@ -32,11 +35,15 @@ public class MainAppController {
 	@FXML TextField newtaginput;
 	
 	private Stage mainStage;
-
+	private Stage primaryStage;
 
 	@FXML
 	protected void buttonPress(ActionEvent event) throws IOException {
-	
+		Button b = (Button)event.getSource();
+		if(b==logoutbutton) {
+			// code to maintain current state here
+			LoginStage(mainStage);
+		}
 		
 	}
 
@@ -45,6 +52,25 @@ public class MainAppController {
 		// TODO Auto-generated method stub
 		this.mainStage = mainStage;
 		
+	}
+	private void LoginStage(Stage primaryStage) throws IOException {
+		this.primaryStage = primaryStage;
+		FXMLLoader loader = new FXMLLoader();   
+		loader.setLocation(
+				getClass().getResource("/view/login.fxml"));
+		VBox root = (VBox)loader.load();
+		//load our controller into the primary stage
+		PhotoController pController = 
+				loader.getController();
+		pController.start(primaryStage);
+		//set the scene
+		Scene scene = new Scene(root, 600, 420);
+		//make scene primary stage - dont make resizable
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Login");
+		primaryStage.show(); 
+		primaryStage.setResizable(false);
+
 	}
 
 }
