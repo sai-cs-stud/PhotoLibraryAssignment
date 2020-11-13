@@ -41,6 +41,11 @@ public class PhotoController {
 							break;
 					
 					}
+					else{
+						mainAppStage();
+						break;
+						
+					}
 						
                      	
 				}
@@ -80,7 +85,22 @@ public class PhotoController {
 	    adminStage.show();
 	   
 	    
-	}   
+	}  
+	
+	private void mainAppStage() throws IOException {
+		System.out.println("Does this work?");
+		mainStage.hide();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/mainapp.fxml"));
+	    Stage appStage = (Stage)loader.load();
+	    MainAppController mainAppController = 
+				loader.getController();
+	    appStage.setTitle("App menu");
+		mainAppController.start(appStage);
+	    appStage.show();
+		
+		
+		
+	}
 	
 }
 
