@@ -1,5 +1,6 @@
 package view;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -11,6 +12,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 
@@ -37,12 +39,24 @@ public class MainAppController {
 	private Stage mainStage;
 	private Stage primaryStage;
 
+	FileChooser fil_chooser = new FileChooser();
+	
 	@FXML
 	protected void buttonPress(ActionEvent event) throws IOException {
 		Button b = (Button)event.getSource();
 		if(b==logoutbutton) {
 			// code to maintain current state here
 			LoginStage(mainStage);
+		}
+		else if(b==addphotobutton) {
+			
+			File newphoto = fil_chooser.showOpenDialog(mainStage);
+			
+			if(newphoto != null) {
+				
+				System.out.println(newphoto.getAbsolutePath());
+			}
+			
 		}
 		
 	}
