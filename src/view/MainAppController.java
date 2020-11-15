@@ -1,6 +1,7 @@
 package view;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -9,11 +10,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 
 @SuppressWarnings("unused")
@@ -35,6 +41,8 @@ public class MainAppController {
 	@FXML Button displayphotosbutton;
 	@FXML TextArea photocaption;
 	@FXML TextField newtaginput;
+	@FXML ScrollPane myscrollpane;
+	@FXML TilePane mytilepane;
 	
 	private Stage mainStage;
 	private Stage primaryStage;
@@ -55,6 +63,15 @@ public class MainAppController {
 			if(newphoto != null) {
 				
 				System.out.println(newphoto.getAbsolutePath());
+				String myphotopath = newphoto.getAbsolutePath();
+				Image myphoto = new Image(new FileInputStream(myphotopath),150, 0, true, true);
+				
+				ImageView newimage = new ImageView(myphoto);
+				newimage.setFitWidth(150);
+				
+				mytilepane.getChildren().addAll(newimage);
+
+		       
 			}
 			
 		}
