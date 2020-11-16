@@ -114,7 +114,7 @@ public class MainAppController {
 			
 		}
 		else if(b==displayphotosbutton) {
-			//displayPhotoStage(mainStage);
+			displayPhotoStage(mainStage);
 		}
 		
 	}
@@ -144,18 +144,18 @@ public class MainAppController {
 		primaryStage.setResizable(false);
 
 	}
-	/*private void displayPhotoStage(Stage primaryStage) throws IOException{
+	private void displayPhotoStage(Stage primaryStage) throws IOException{
+		//Maybe make a separate controller?
 		this.primaryStage = primaryStage;
 		FXMLLoader loader = new FXMLLoader();   
-		System.out.println(getClass().getResource("/view/displayphoto.fxml"));
-		loader.setLocation(
+				loader.setLocation(
 				getClass().getResource("/view/displayphoto.fxml"));
-		Parent root = (Parent)loader.load();
+		TitledPane root = loader.load(
+				getClass().getResource("/view/displayphoto.fxml").openStream());
 		//load our controller into the primary stage
-		PhotoController pController = 
-				loader.getController();
+		MainAppController mController = (MainAppController)loader.getController();
 		System.out.println(primaryStage);
-		pController.start(primaryStage);
+		mController.start(primaryStage);
 		//set the scene
 		Scene scene = new Scene(root, 600, 420);
 		//make scene primary stage - dont make resizable
@@ -164,5 +164,5 @@ public class MainAppController {
 		primaryStage.show(); 
 		primaryStage.setResizable(false);
 
-	}*/
+	}
 }
