@@ -97,6 +97,9 @@ public class MainAppController {
 							//maybe need to check if other images are highlighted so that only one is highlighted at a time
 						
 						}
+						else {
+							newimage.setEffect(null);
+						}
 					
 					}
 					
