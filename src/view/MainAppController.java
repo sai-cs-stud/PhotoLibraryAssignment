@@ -70,7 +70,8 @@ public class MainAppController {
 				newimage.setFitWidth(150);
 				
 				mytilepane.getChildren().addAll(newimage);
-
+				mytilepane.setHgap(10);
+				mytilepane.setVgap(10);
 		       
 			}
 			
