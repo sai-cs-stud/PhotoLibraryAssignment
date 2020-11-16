@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Scene?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.stage.Stage?>
+
+
+<Stage xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AlbumController">
+   <scene>
+      <Scene>
+          <AnchorPane prefHeight="255.0" prefWidth="447.0">
+            <children>
+               <TextField fx:id="createalbum_tf" layoutX="53.0" layoutY="76.0" prefHeight="27.0" prefWidth="140.0" promptText="album name" />
+               <TextField fx:id="deletealbum_tf" layoutX="52.0" layoutY="132.0" prefHeight="27.0" prefWidth="141.0" promptText="album name" />
+               <TextField fx:id="oldalb_tf" layoutX="18.0" layoutY="186.0" prefHeight="27.0" prefWidth="105.0" promptText="old album" />
+               <TextField fx:id="newalb_tf" layoutX="142.0" layoutY="186.0" prefHeight="27.0" prefWidth="102.0" promptText="new album" />
+               <Button fx:id="createalbum_but" layoutX="258.0" layoutY="76.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="27.0" prefWidth="121.0" text="Create Album" />
+               <Button fx:id="deletealbum_but" layoutX="258.0" layoutY="132.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="27.0" prefWidth="122.0" text="Delete Album" />
+               <Button fx:id="renamealbum_but" layoutX="260.0" layoutY="186.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="27.0" prefWidth="117.0" text="Rename Album" />
+               <Label layoutX="100.0" layoutY="33.0" prefHeight="22.0" prefWidth="247.0" text="create, delete, or rename an album">
+                  <font>
+                     <Font name="System Font" size="17.0" />
+                  </font>
+               </Label>
+            </children>
+         </AnchorPane>
+      </Scene>
+   </scene>
+</Stage>
