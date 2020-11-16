@@ -9,12 +9,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -111,6 +113,9 @@ public class MainAppController {
 			}
 			
 		}
+		else if(b==displayphotosbutton) {
+			//displayPhotoStage(mainStage);
+		}
 		
 	}
 
@@ -139,5 +144,25 @@ public class MainAppController {
 		primaryStage.setResizable(false);
 
 	}
+	/*private void displayPhotoStage(Stage primaryStage) throws IOException{
+		this.primaryStage = primaryStage;
+		FXMLLoader loader = new FXMLLoader();   
+		System.out.println(getClass().getResource("/view/displayphoto.fxml"));
+		loader.setLocation(
+				getClass().getResource("/view/displayphoto.fxml"));
+		Parent root = (Parent)loader.load();
+		//load our controller into the primary stage
+		PhotoController pController = 
+				loader.getController();
+		System.out.println(primaryStage);
+		pController.start(primaryStage);
+		//set the scene
+		Scene scene = new Scene(root, 600, 420);
+		//make scene primary stage - dont make resizable
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Display");
+		primaryStage.show(); 
+		primaryStage.setResizable(false);
 
+	}*/
 }

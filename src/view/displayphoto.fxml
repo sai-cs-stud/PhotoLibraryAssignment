@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.TilePane?>
+
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="600.0" text="Display Photo" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="view.MainAppController">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="379.0" prefWidth="598.0">
+         <children>
+            <TilePane layoutX="44.0" layoutY="30.0" prefHeight="291.0" prefWidth="511.0" />
+            <TextField layoutX="21.0" layoutY="363.0" prefHeight="49.0" prefWidth="106.0" />
+            <TextField layoutX="127.0" layoutY="363.0" prefHeight="49.0" prefWidth="272.0" />
+            <TextField layoutX="399.0" layoutY="363.0" prefHeight="49.0" prefWidth="178.0" />
+         </children></AnchorPane>
+  </content>
+</TitledPane>
