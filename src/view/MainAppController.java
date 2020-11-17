@@ -177,14 +177,18 @@ public class MainAppController {
 		}
 		else if(b==displayphotosbutton) {
 			try {
-				for(ImageDetails id : addedImageDetails) {
-					
+				for(ImageView img : addedImages) {
+					if(img.getEffect() != null) {
+						int imindex = addedImages.indexOf(img);
+						ImageDetails deetz = addedImageDetails.get(imindex);
+						displayPhotoStage(deetz);
+					}
 				}
 			}
 			catch(Exception io) {
 				io.printStackTrace();
 			}
-			displayPhotoStage();
+			
 			
 		}
 		else if(b==editalbumbutton) {
@@ -231,7 +235,7 @@ public class MainAppController {
 		primaryStage.setResizable(false);
 
 	}
-	private void displayPhotoStage() throws IOException{
+	private void displayPhotoStage(ImageDetails imagedetails) throws IOException{
 		//this.primaryStage = primaryStage;
 		FXMLLoader loader = new FXMLLoader();   
 		loader.setLocation(
@@ -239,9 +243,9 @@ public class MainAppController {
 		Stage displayStage = (Stage)loader.load();
 		DisplayPhotoController dpc = loader.getController();
 		displayStage.setTitle("Display");
-		displayStage.show(); 
+		dpc.photo = imagedetails;
 		//primaryStage.setResizable(false);
-		dpc.start(displayStage,selectedImage);
+		dpc.start(displayStage);
 		displayStage.show();
 
 	}

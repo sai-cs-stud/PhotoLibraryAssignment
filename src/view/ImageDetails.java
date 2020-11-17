@@ -25,4 +25,8 @@ public class ImageDetails {
 	public void resetTags(String[] tags) {
 		this.tags = tags;
 	}
+	public String getPath() {
+		return image_path;
+		
+	}
 }
