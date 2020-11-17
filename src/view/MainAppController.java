@@ -3,7 +3,9 @@ package view;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 
 import javafx.collections.FXCollections;
@@ -64,12 +66,14 @@ public class MainAppController {
 	
 	private Stage mainStage;
 	private Stage primaryStage;
-	ObservableList<String> obslist;
+	ObservableList<String> albobslist;
 	ImageView selectedImage;
 	ObservableList<ImageView> addedImages= FXCollections.observableArrayList();
 	ObservableList<ImageDetails> addedImageDetails = FXCollections.observableArrayList();
 		
 	FileChooser fil_chooser = new FileChooser();
+	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+	
 	
 	@FXML
 	protected void buttonPress(ActionEvent event) throws IOException {
@@ -79,31 +83,48 @@ public class MainAppController {
 			LoginStage(mainStage);
 		}
 		else if(b==addphotobutton) {
-			
+			Alert albumissue = new Alert(AlertType.ERROR);
+			albumissue.setContentText("You need to have an album selected");
 			File newphoto = fil_chooser.showOpenDialog(mainStage);
 			
 			if(newphoto != null) {
-				try {
+		
+				if(albobslist.isEmpty()) {
+					albumissue.show();
+				}
+				else {	
+					String selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
+					String[] tags = null;
+					String caps = null;
+					//getpath of photo I want to add
+					//String img_date_time = sdf.format(newphoto.lastModified());
+					Date lastmoddate = new Date(newphoto.lastModified());
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(lastmoddate);
+					calendar.set(Calendar.MILLISECOND, 0);
+					System.out.println(lastmoddate);
+					System.out.println(newphoto.getAbsolutePath());
+					String myphotopath = newphoto.getAbsolutePath();
+					//create an imagedetail with all the properties
+					ImageDetails newimagedetails = new ImageDetails(myphotopath, calendar, caps, tags);
+					addedImageDetails.add(newimagedetails);
 					
-				//Calendar img_date_time = Calendar.getInstance();
-				System.out.println(newphoto.getAbsolutePath());
-				String myphotopath = newphoto.getAbsolutePath();
-				File photofile = new File(myphotopath);
-				Image myphoto = new Image(new FileInputStream(photofile),150, 0, true, true);
-				StackPane background = new StackPane();
-				ImageView newimage = new ImageView(myphoto);
-				newimage.setFitWidth(150);
-				newimage.setFitHeight(mainStage.getHeight() - 10);
-                newimage.setPreserveRatio(true);
-                newimage.setSmooth(true);
-                newimage.setCache(true);
+					File photofile = new File(myphotopath);
+					Image myphoto = new Image(new FileInputStream(photofile),150, 0, true, true);
+					StackPane background = new StackPane();
+					ImageView newimage = new ImageView(myphoto);
+					newimage.setFitWidth(150);
+					newimage.setFitHeight(mainStage.getHeight() - 10);
+					newimage.setPreserveRatio(true);
+					newimage.setSmooth(true);
+					newimage.setCache(true);
                 
-				mytilepane.setPadding(new Insets(15, 15, 15, 15));
-		        mytilepane.setHgap(15);
-				mytilepane.getChildren().addAll(newimage);
-				addedImages.add(newimage);
-				//ImageDetails dets = new ImageDetails(img_date_time,null,null);
-				//addedImageDetails.add(dets);
+					mytilepane.setPadding(new Insets(15, 15, 15, 15));
+					mytilepane.setHgap(15);
+					mytilepane.getChildren().addAll(newimage);
+					addedImages.add(newimage);
+					//ImageDetails dets = new ImageDetails(img_date_time,null,null);
+					//addedImageDetails.add(dets);
 				
 				
 				
@@ -127,10 +148,7 @@ public class MainAppController {
 								/*if(image==newimage){
 									ImageDetails imgDets = addedImageDetails.get(i);
 								}*/
-							}
-							
-							
-						
+								}
 						}
 						else {
 							newimage.setEffect(null);
@@ -140,9 +158,8 @@ public class MainAppController {
 					
 				});
 				}
-				finally {
-					System.out.println("error");
-				}
+			
+					
 			}
 			
 		}
@@ -157,14 +174,16 @@ public class MainAppController {
 			}
 		}
 		else if(b==displayphotosbutton) {
-			if(selectedImage==null) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.show();
-				return;
+			try {
+				for(ImageDetails id : addedImageDetails) {
+					
+				}
 			}
-			else {
+			catch(Exception io) {
+				io.printStackTrace();
+			}
 			displayPhotoStage();
-			}
+			
 		}
 		else if(b==editalbumbutton) {
 			displayAlbumMenu();
@@ -175,7 +194,7 @@ public class MainAppController {
 	public void start(Stage mainStage) {
 		// TODO Auto-generated method stub
 		this.mainStage = mainStage;
-		obslist = FXCollections.observableArrayList();
+		albobslist = FXCollections.observableArrayList();
 		
 
 		
@@ -236,7 +255,7 @@ public class MainAppController {
 		AlbumController albumcontroller = loader.getController();
 		albumstage.setTitle("Album menu");
 		albumcontroller.albumlist = albumlistview;
-		albumcontroller.albumobslist = obslist;
+		albumcontroller.albumobslist = albobslist;
 		albumcontroller.start(albumstage);
 		albumstage.show();
 		
