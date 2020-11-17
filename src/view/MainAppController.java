@@ -134,6 +134,16 @@ public class MainAppController {
 			}
 			
 		}
+		else if(b==editcaptionbutton) {
+			if(selectedImage==null) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.show();
+				return;
+			}
+			else {
+			displayEditCaptionMenu(mainStage);
+			}
+		}
 		else if(b==displayphotosbutton) {
 			if(selectedImage==null) {
 				Alert alert = new Alert(AlertType.ERROR);
@@ -191,6 +201,23 @@ public class MainAppController {
 		primaryStage.show(); 
 		primaryStage.setResizable(false);
 		dpc.start(primaryStage,selectedImage);
+		primaryStage.show();
+
+	}
+	private void displayEditCaptionMenu(Stage primaryStage) throws IOException{
+		this.primaryStage = primaryStage;
+		FXMLLoader loader = new FXMLLoader();   
+		loader.setLocation(
+		getClass().getResource("/view/editCaption.fxml"));
+		TitledPane root = loader.load(
+		getClass().getResource("/view/editCaption.fxml").openStream());
+		EditCaptionController ecc = loader.getController();
+		Scene scene = new Scene(root, 600, 420);
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Edit Image's Caption");
+		primaryStage.show(); 
+		primaryStage.setResizable(false);
+		ecc.start(primaryStage,selectedImage);
 		primaryStage.show();
 
 	}
