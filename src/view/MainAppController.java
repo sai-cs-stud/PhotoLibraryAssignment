@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -22,6 +23,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -62,6 +64,7 @@ public class MainAppController {
 	private Stage mainStage;
 	private Stage primaryStage;
 	ObservableList<String> obslist;
+	ImageView selectedImage;
 		
 	FileChooser fil_chooser = new FileChooser();
 	
@@ -102,8 +105,10 @@ public class MainAppController {
 						// TODO Auto-generated method stub
 						if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
 							
+							selectedImage = newimage;
 							newimage.setEffect(new DropShadow(15, Color.BLACK));
 							//maybe need to check if other images are highlighted so that only one is highlighted at a time
+							
 						
 						}
 						else {
@@ -121,7 +126,14 @@ public class MainAppController {
 			
 		}
 		else if(b==displayphotosbutton) {
+			if(selectedImage==null) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.show();
+				return;
+			}
+			else {
 			displayPhotoStage(mainStage);
+			}
 		}
 		else if(b==editalbumbutton) {
 			displayAlbumMenu();
@@ -157,24 +169,20 @@ public class MainAppController {
 
 	}
 	private void displayPhotoStage(Stage primaryStage) throws IOException{
-		//Maybe make a separate controller?
 		this.primaryStage = primaryStage;
 		FXMLLoader loader = new FXMLLoader();   
-				loader.setLocation(
-				getClass().getResource("/view/displayphoto.fxml"));
+		loader.setLocation(
+		getClass().getResource("/view/displayphoto.fxml"));
 		TitledPane root = loader.load(
-				getClass().getResource("/view/displayphoto.fxml").openStream());
-		//load our controller into the primary stage
-		MainAppController mController = (MainAppController)loader.getController();
-		System.out.println(primaryStage);
-		mController.start(primaryStage);
-		//set the scene
+		getClass().getResource("/view/displayphoto.fxml").openStream());
+		DisplayPhotoController dpc = loader.getController();
 		Scene scene = new Scene(root, 600, 420);
-		//make scene primary stage - dont make resizable
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Display");
 		primaryStage.show(); 
 		primaryStage.setResizable(false);
+		dpc.start(primaryStage,selectedImage);
+		primaryStage.show();
 
 	}
 	private void displayAlbumMenu() throws IOException{
