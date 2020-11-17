@@ -65,6 +65,7 @@ public class MainAppController {
 	private Stage primaryStage;
 	ObservableList<String> obslist;
 	ImageView selectedImage;
+	ObservableList<ImageView> addedImages= FXCollections.observableArrayList();
 		
 	FileChooser fil_chooser = new FileChooser();
 	
@@ -96,6 +97,7 @@ public class MainAppController {
 				mytilepane.setPadding(new Insets(15, 15, 15, 15));
 		        mytilepane.setHgap(15);
 				mytilepane.getChildren().addAll(newimage);
+				addedImages.add(newimage);
 				
 				
 				newimage.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -107,7 +109,14 @@ public class MainAppController {
 							
 							selectedImage = newimage;
 							newimage.setEffect(new DropShadow(15, Color.BLACK));
-							//maybe need to check if other images are highlighted so that only one is highlighted at a time
+							for(ImageView image: addedImages) {
+								if(image!=newimage) {
+									if(image.getEffect()!=null) {
+										image.setEffect(null);
+									}
+								}
+							}
+							
 							
 						
 						}
