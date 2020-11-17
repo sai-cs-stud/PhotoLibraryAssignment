@@ -3,6 +3,7 @@ package view;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Optional;
 
 import javafx.collections.FXCollections;
@@ -66,6 +67,7 @@ public class MainAppController {
 	ObservableList<String> obslist;
 	ImageView selectedImage;
 	ObservableList<ImageView> addedImages= FXCollections.observableArrayList();
+	ObservableList<ImageDetails> addedImageDetails = FXCollections.observableArrayList();
 		
 	FileChooser fil_chooser = new FileChooser();
 	
@@ -82,6 +84,8 @@ public class MainAppController {
 			
 			if(newphoto != null) {
 				try {
+					
+				//Calendar img_date_time = Calendar.getInstance();
 				System.out.println(newphoto.getAbsolutePath());
 				String myphotopath = newphoto.getAbsolutePath();
 				File photofile = new File(myphotopath);
@@ -98,6 +102,9 @@ public class MainAppController {
 		        mytilepane.setHgap(15);
 				mytilepane.getChildren().addAll(newimage);
 				addedImages.add(newimage);
+				//ImageDetails dets = new ImageDetails(img_date_time,null,null);
+				//addedImageDetails.add(dets);
+				
 				
 				
 				newimage.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -109,12 +116,17 @@ public class MainAppController {
 							
 							selectedImage = newimage;
 							newimage.setEffect(new DropShadow(15, Color.BLACK));
+							int i =0;
 							for(ImageView image: addedImages) {
+								i++;
 								if(image!=newimage) {
 									if(image.getEffect()!=null) {
 										image.setEffect(null);
 									}
 								}
+								/*if(image==newimage){
+									ImageDetails imgDets = addedImageDetails.get(i);
+								}*/
 							}
 							
 							
@@ -151,7 +163,7 @@ public class MainAppController {
 				return;
 			}
 			else {
-			displayPhotoStage(mainStage);
+			displayPhotoStage();
 			}
 		}
 		else if(b==editalbumbutton) {
@@ -187,21 +199,18 @@ public class MainAppController {
 		primaryStage.setResizable(false);
 
 	}
-	private void displayPhotoStage(Stage primaryStage) throws IOException{
-		this.primaryStage = primaryStage;
+	private void displayPhotoStage() throws IOException{
+		//this.primaryStage = primaryStage;
 		FXMLLoader loader = new FXMLLoader();   
 		loader.setLocation(
 		getClass().getResource("/view/displayphoto.fxml"));
-		TitledPane root = loader.load(
-		getClass().getResource("/view/displayphoto.fxml").openStream());
+		Stage displayStage = (Stage)loader.load();
 		DisplayPhotoController dpc = loader.getController();
-		Scene scene = new Scene(root, 600, 420);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Display");
-		primaryStage.show(); 
-		primaryStage.setResizable(false);
-		dpc.start(primaryStage,selectedImage);
-		primaryStage.show();
+		displayStage.setTitle("Display");
+		displayStage.show(); 
+		//primaryStage.setResizable(false);
+		dpc.start(displayStage,selectedImage);
+		displayStage.show();
 
 	}
 	private void displayEditCaptionMenu(Stage primaryStage) throws IOException{
@@ -232,5 +241,4 @@ public class MainAppController {
 		albumstage.show();
 		
 	}
-	
 }
