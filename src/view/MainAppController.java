@@ -72,7 +72,6 @@ public class MainAppController {
 	ObservableList<ImageDetails> addedImageDetails = FXCollections.observableArrayList();
 		
 	FileChooser fil_chooser = new FileChooser();
-	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 	
 	
 	@FXML
@@ -102,7 +101,7 @@ public class MainAppController {
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(lastmoddate);
 					calendar.set(Calendar.MILLISECOND, 0);
-					System.out.println(lastmoddate);
+					System.out.println(calendar.getTime());
 					System.out.println(newphoto.getAbsolutePath());
 					String myphotopath = newphoto.getAbsolutePath();
 					//create an imagedetail with all the properties
