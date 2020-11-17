@@ -6,9 +6,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.Optional;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -70,7 +72,8 @@ public class MainAppController {
 	ImageView selectedImage;
 	ObservableList<ImageView> addedImages= FXCollections.observableArrayList();
 	ObservableList<ImageDetails> addedImageDetails = FXCollections.observableArrayList();
-		
+	Hashtable<String,ImageDetails> detsDict = new Hashtable<String,ImageDetails>();
+	
 	FileChooser fil_chooser = new FileChooser();
 	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 	
@@ -187,6 +190,17 @@ public class MainAppController {
 		}
 		else if(b==editalbumbutton) {
 			displayAlbumMenu();
+			
+			albobslist.addListener(new ListChangeListener<String>() {
+				@Override
+				 public void onChanged(
+					        javafx.collections.ListChangeListener.Change<? extends String> s) {
+					        while(s.next()) {
+					        	
+					        }
+					    }
+				
+			});
 		}
 	}
 
