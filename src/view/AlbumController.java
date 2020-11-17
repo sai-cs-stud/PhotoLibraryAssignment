@@ -7,6 +7,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -29,25 +31,23 @@ public class AlbumController {
 	public ObservableList<String> albumobslist;
 	
 	@FXML
-	protected ObservableList<String> buttonPress(ActionEvent event) throws IOException{
+	protected void buttonPress(ActionEvent event) throws IOException{
 		Button b = (Button)event.getSource();
 		if(b == createalbum_but) {
 			
 			String newalbumname = createalbum_tf.getText();
 			System.out.println(newalbumname);
 			albumobslist.add(newalbumname);
-			return albumobslist;
 		}
-		return albumobslist;
-		
-		
+		albumlist.setItems(albumobslist);
+		System.out.println(albumobslist);
 	}
+		
 
 	public void start(Stage mainStage) {
 		this.mainStage = mainStage;
 		albumobslist = FXCollections.observableArrayList();
 		System.out.println(albumobslist);
-		System.out.println(albumlist);
 		
 		
 		
@@ -56,15 +56,26 @@ public class AlbumController {
 			@Override
 			public void handle(WindowEvent we) {
 				// TODO Auto-generated method stub
+				try {
+				 FXMLLoader loader = new FXMLLoader(getClass().getResource(
+			               "/view/mainapp.fxml"));
+			         Stage root = (Stage) loader.load();
+			         MainAppController controller = loader.getController();
+				System.out.println(controller);
+				System.out.println(controller.obslist);
+				//controller.albumlistview = albumlist;
+				//controller.obslist = albumobslist;
 				
+			
+				} catch (Exception e) {
+			         e.printStackTrace();
+			      }
 			}
-	
 		
 		
 		});
 
 	}
 	
-	
-	
+
 }
