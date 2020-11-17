@@ -1,18 +1,18 @@
 package view;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class ImageDetails {
 
-	Date date_time;
+	Calendar date_time;
 	String Caption;
 	String[] tags;
-	public ImageDetails(Date date_time, String caption, String[] tags) {
+	public ImageDetails(Calendar date_time, String caption, String[] tags) {
 		this.date_time = date_time;
 		this.Caption = caption;
 		this.tags = tags;
 	}
-	public void resetDate_Time(Date date_time) {
+	public void resetDate_Time(Calendar date_time) {
 		this.date_time = date_time;
 	}
 	public void resetCaption(String caption) {
