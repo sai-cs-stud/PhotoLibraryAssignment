@@ -100,6 +100,9 @@ public class MainAppController {
 				if(albobslist.isEmpty()) {
 					albumissue.show();
 				}
+				else if(albumlistview.getSelectionModel().isEmpty()) {
+					albumissue.show();
+				}
 				else {	
 					String selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
 					String[] tags = null;
