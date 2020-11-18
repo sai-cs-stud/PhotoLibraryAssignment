@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
@@ -121,13 +122,14 @@ public class MainAppController {
 					newimage.setPreserveRatio(true);
 					newimage.setSmooth(true);
 					newimage.setCache(true);
-                
+					
 					mytilepane.setPadding(new Insets(15, 15, 15, 15));
 					mytilepane.setHgap(15);
 					mytilepane.getChildren().addAll(newimage);
 					addedImages.add(newimage);
-					//ImageDetails dets = new ImageDetails(img_date_time,null,null);
-					//addedImageDetails.add(dets);
+					
+					detsDict.get(selectedalbum).add(newimagedetails);
+					System.out.println("Album contents:" + Arrays.toString(detsDict.get(selectedalbum).toArray()));
 				
 				
 				
@@ -221,6 +223,7 @@ public class MainAppController {
 					        }
 					        System.out.println("Dictionary Keys:" + detsDict.keySet());
 					    }
+				
 				
 			});
 		}
