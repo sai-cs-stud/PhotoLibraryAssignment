@@ -68,6 +68,7 @@ public class MainAppController {
 	@FXML ScrollPane myscrollpane;
 	@FXML TilePane mytilepane;
 	
+	
 	private Stage mainStage;
 	private Stage primaryStage;
 	ObservableList<String> albobslist;
@@ -77,6 +78,9 @@ public class MainAppController {
 	Hashtable<String,ArrayList<ImageDetails>> detsDict = new Hashtable<String,ArrayList<ImageDetails>>();
 	
 	FileChooser fil_chooser = new FileChooser();
+	
+	String pattern = "MM/dd/yyyy HH:mm:ss";
+	SimpleDateFormat df = new SimpleDateFormat(pattern);
 	
 	
 	@FXML
@@ -149,7 +153,9 @@ public class MainAppController {
 								int imindex = addedImageDetails.indexOf(image);
 								ImageDetails deetz = addedImageDetails.get(imindex);
 								if(deetz.image_path.equals(image.image_path)) {
-									photocaption.setText(image.date_time.toString() + image.caption);
+									Calendar cal = deetz.getCal();
+									Date capdatetime = cal.getTime();
+									photocaption.setText("Last modified date: " + df.format(capdatetime) + " " + image.caption);
 									ObservableList<String> temp_tags = FXCollections.observableArrayList();
 									if(image.tags!=null) {
 										temp_tags.addAll(image.tags);
@@ -264,7 +270,7 @@ public class MainAppController {
 		// TODO Auto-generated method stub
 		this.mainStage = mainStage;
 		albobslist = FXCollections.observableArrayList();
-		
+		photocaption.setEditable(false);
 
 		
 	}
@@ -333,4 +339,7 @@ public class MainAppController {
 		albumstage.show();
 		
 	}
+	
+	
+	
 }
