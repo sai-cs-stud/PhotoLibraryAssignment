@@ -83,8 +83,12 @@ public class MainAppController {
 	SimpleDateFormat df = new SimpleDateFormat(pattern);
 	
 	
+	
 	@FXML
 	protected void buttonPress(ActionEvent event) throws IOException {
+		Alert badinput = new Alert (AlertType.ERROR);
+		badinput.setContentText("bad input");
+		
 		Button b = (Button)event.getSource();
 		if(b==logoutbutton) {
 			// code to maintain current state here
@@ -105,7 +109,7 @@ public class MainAppController {
 				}
 				else {	
 					String selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
-					String[] tags = null;
+					ArrayList<String> tags = new ArrayList<String>();
 					String caps = null;
 					//getpath of photo I want to add
 					//String img_date_time = sdf.format(newphoto.lastModified());
@@ -138,8 +142,6 @@ public class MainAppController {
 					detsDict.get(selectedalbum).add(newimagedetails);
 					System.out.println("Album contents:" + Arrays.toString(detsDict.get(selectedalbum).toArray()));
 				
-				
-				
 				newimage.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 					@Override
@@ -160,8 +162,8 @@ public class MainAppController {
 									Date capdatetime = cal.getTime();
 									photocaption.setText("Last modified date: " + df.format(capdatetime) + " " + image.caption);
 									ObservableList<String> temp_tags = FXCollections.observableArrayList();
-									if(image.tags!=null) {
-										temp_tags.addAll(image.tags);
+									if(image.getTags()!=null) {
+										temp_tags.addAll(image.getTags());
 										taglistview.setItems(temp_tags);
 									}
 								}
@@ -265,6 +267,42 @@ public class MainAppController {
 				
 				
 			});
+		}
+		else if(b==addtagbutton) {
+			
+			if(newtaginput.getText().trim().isEmpty()) {
+				badinput.show();
+			}
+			else {
+				String newtag = newtaginput.getText();
+				boolean checker = true;
+				try {
+					for(ImageView img : addedImages) {
+						if(img.getEffect() != null) {
+							int imindex = addedImages.indexOf(img);
+							ImageDetails deetz = addedImageDetails.get(imindex);
+							ArrayList<String> mytags = deetz.getTags();
+							if(mytags.isEmpty()) {
+								mytags.add(newtag);
+							}
+							for(String tag : mytags) {
+								if(newtag.equals(tag)) {
+									checker = false;
+									badinput.show();
+								}
+							}
+							if(checker != false) {
+								mytags.add(newtag);
+							}
+							
+						}
+					}
+				}
+				catch(Exception io) {
+					io.printStackTrace();
+				}
+			}
+			
 		}
 	}
 

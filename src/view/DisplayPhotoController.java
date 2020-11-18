@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -44,14 +45,14 @@ public class DisplayPhotoController {
 		Label datelabel = new Label();
 		datelabel.setText("Last modified date: " +  df.format(datetime));
 		String cap = photo.getCaption();
-		String[] tag = photo.getTags();
+		ArrayList<String> taglist = photo.getTags();
 		if(cap != null) {
 			caption.setText(cap);
 		}
-		if(tag != null) {
+		if(tags != null) {
 			StringBuffer sb = new StringBuffer();
-			for(int i=0; i<tag.length; i++) {
-				sb.append(tag[i]);
+			for(String tag : taglist ) {
+				sb.append(tag);
 			}
 			String sbtoString = sb.toString();
 			tags.setText(sbtoString);
@@ -62,9 +63,13 @@ public class DisplayPhotoController {
 		imview.setPreserveRatio(true);
 		imview.setEffect(null);
 
-		photopane.setHgap(5);
+		photopane.setHgap(1);
 		photopane.setVgap(1);
+		mainStage.setHeight(700);
+		mainStage.setWidth(700);
 		photopane.getChildren().addAll(imview, datelabel, caption, tags);
+	
+
 		mainStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 			@Override
@@ -72,7 +77,7 @@ public class DisplayPhotoController {
 				// TODO Auto-generated method stub
 				
 			}
-	
+			
 		
 		
 		});
