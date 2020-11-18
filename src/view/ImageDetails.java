@@ -29,4 +29,13 @@ public class ImageDetails {
 		return image_path;
 		
 	}
+	public Calendar getCal() {
+		return date_time;
+	}
+	public String getCaption() {
+		return Caption;
+	}
+	public String[] getTags() {
+		return tags;
+	}
 }

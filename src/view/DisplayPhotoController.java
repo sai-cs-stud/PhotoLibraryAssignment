@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -26,7 +29,8 @@ public class DisplayPhotoController {
 	private Stage mainStage;
 	
 	public ImageDetails photo;
-	
+	String pattern = "MM/dd/yyyy HH:mm:ss";
+	SimpleDateFormat df = new SimpleDateFormat(pattern);
 	
 	public void start(Stage mainStage) throws FileNotFoundException {
 		this.mainStage = mainStage;
@@ -35,14 +39,32 @@ public class DisplayPhotoController {
 		File photofile = new File(photopath);
 		Image photoim = new Image(new FileInputStream(photofile));
 		ImageView imview = new ImageView(photoim);
+		Calendar cal = photo.getCal();
+		Date datetime = cal.getTime();
+		Label datelabel = new Label();
+		datelabel.setText("Last modified date: " +  df.format(datetime));
+		String cap = photo.getCaption();
+		String[] tag = photo.getTags();
+		if(cap != null) {
+			caption.setText(cap);
+		}
+		if(tag != null) {
+			StringBuffer sb = new StringBuffer();
+			for(int i=0; i<tag.length; i++) {
+				sb.append(tag[i]);
+			}
+			String sbtoString = sb.toString();
+			tags.setText(sbtoString);
+		}
 		
-		double h = photopane.getWidth();
-		double w = photopane.getHeight();
-		imview.setFitHeight(h);
-		imview.setFitWidth(w);
+		imview.setFitHeight(500);
+		imview.setFitWidth(500);
+		imview.setPreserveRatio(true);
 		imview.setEffect(null);
-		photopane.getChildren().addAll(imview);
-		
+
+		photopane.setHgap(5);
+		photopane.setVgap(1);
+		photopane.getChildren().addAll(imview, datelabel, caption, tags);
 		mainStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 			@Override
