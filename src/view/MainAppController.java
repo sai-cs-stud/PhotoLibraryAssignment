@@ -142,9 +142,24 @@ public class MainAppController {
 							
 							selectedImage = newimage;
 							newimage.setEffect(new DropShadow(15, Color.BLACK));
-							int i =0;
+							// find image in hashtable by traversing, and matching to corresponding imgdetsobslist 
+							// then extract date, caption, and tags
+							String temp_selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
+							for(ImageDetails image: detsDict.get(temp_selectedalbum)) {
+								int imindex = addedImageDetails.indexOf(image);
+								ImageDetails deetz = addedImageDetails.get(imindex);
+								if(deetz.image_path.equals(image.image_path)) {
+									photocaption.setText(image.date_time.toString() + image.caption);
+									ObservableList<String> temp_tags = FXCollections.observableArrayList();
+									if(image.tags!=null) {
+										temp_tags.addAll(image.tags);
+										taglistview.setItems(temp_tags);
+									}
+								}
+							}
+							//int i =0;
 							for(ImageView image: addedImages) {
-								i++;
+								//i++;
 								if(image!=newimage) {
 									if(image.getEffect()!=null) {
 										image.setEffect(null);
@@ -157,6 +172,8 @@ public class MainAppController {
 						}
 						else {
 							newimage.setEffect(null);
+							photocaption.setText("");
+							taglistview.setItems(null);
 						}
 					
 					}
@@ -164,6 +181,7 @@ public class MainAppController {
 				});
 				}
 			
+				
 					
 			}
 			
@@ -175,7 +193,19 @@ public class MainAppController {
 				return;
 			}
 			else {
-			displayEditCaptionMenu(mainStage);
+				try {
+					for(ImageView img : addedImages) {
+						if(img.getEffect() != null) {
+							int imindex = addedImages.indexOf(img);
+							ImageDetails deetz = addedImageDetails.get(imindex);
+							displayEditCaptionMenu(deetz);
+							
+						}
+					}
+				}
+				catch(Exception io) {
+					io.printStackTrace();
+				}
 			}
 		}
 		else if(b==displayphotosbutton) {
@@ -271,21 +301,25 @@ public class MainAppController {
 		displayStage.show();
 
 	}
-	private void displayEditCaptionMenu(Stage primaryStage) throws IOException{
-		this.primaryStage = primaryStage;
+	private void displayEditCaptionMenu(ImageDetails imagedetails) throws IOException{
+		//this.primaryStage = primaryStage;
 		FXMLLoader loader = new FXMLLoader();   
 		loader.setLocation(
 		getClass().getResource("/view/editCaption.fxml"));
-		TitledPane root = loader.load(
-		getClass().getResource("/view/editCaption.fxml").openStream());
+		Stage displayEditMenu = loader.load();
 		EditCaptionController ecc = loader.getController();
-		Scene scene = new Scene(root, 600, 420);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Edit Image's Caption");
-		primaryStage.show(); 
-		primaryStage.setResizable(false);
-		ecc.start(primaryStage,selectedImage);
-		primaryStage.show();
+		displayEditMenu.setTitle("Edit Image's Caption");
+		ecc.photo = imagedetails;
+		displayEditMenu.setResizable(false);
+		ecc.start(displayEditMenu);
+		displayEditMenu.show();
+		String temp_selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
+		for(ImageDetails detz: detsDict.get(temp_selectedalbum)) {
+			if(detz.image_path.equals(ecc.photo.image_path)) {
+				detz.caption = ecc.caption.getText();
+				
+			}
+		}
 
 	}
 	private void displayAlbumMenu() throws IOException{
