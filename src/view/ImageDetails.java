@@ -5,12 +5,12 @@ import java.util.Calendar;
 public class ImageDetails {
 	String image_path;
 	Calendar date_time;
-	String Caption;
+	String caption;
 	String[] tags;
 	public ImageDetails(String image_path, Calendar date_time, String caption, String[] tags) {
 		this.image_path = image_path;
 		this.date_time = date_time;
-		this.Caption = caption;
+		this.caption = caption;
 		this.tags = tags;
 	}
 	public void resetImagePath(String image_path) {
@@ -20,7 +20,7 @@ public class ImageDetails {
 		this.date_time = date_time;
 	}
 	public void resetCaption(String caption) {
-		this.Caption = caption;
+		this.caption = caption;
 	}
 	public void resetTags(String[] tags) {
 		this.tags = tags;
@@ -33,7 +33,7 @@ public class ImageDetails {
 		return date_time;
 	}
 	public String getCaption() {
-		return Caption;
+		return caption;
 	}
 	public String[] getTags() {
 		return tags;
