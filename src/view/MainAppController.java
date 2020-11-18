@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
@@ -72,7 +73,7 @@ public class MainAppController {
 	ImageView selectedImage;
 	ObservableList<ImageView> addedImages= FXCollections.observableArrayList();
 	ObservableList<ImageDetails> addedImageDetails = FXCollections.observableArrayList();
-	Hashtable<String,ImageDetails> detsDict = new Hashtable<String,ImageDetails>();
+	Hashtable<String,ArrayList<ImageDetails>> detsDict = new Hashtable<String,ArrayList<ImageDetails>>();
 	
 	FileChooser fil_chooser = new FileChooser();
 	
@@ -197,10 +198,28 @@ public class MainAppController {
 			albobslist.addListener(new ListChangeListener<String>() {
 				@Override
 				 public void onChanged(
-					        javafx.collections.ListChangeListener.Change<? extends String> s) {
-					        while(s.next()) {
+					        javafx.collections.ListChangeListener.Change<? extends String> c) {
+					        while(c.next()) {
+					        	if(c.wasReplaced()) {
+					        		System.out.println("Removed: " + c.getRemoved());
+					        		System.out.println("Added: " + c.getAddedSubList());
+					        		ArrayList<ImageDetails> value = detsDict.get(c.getRemoved().get(0));
+					        		detsDict.remove(c.getRemoved().get(0));
+					        		detsDict.put(c.getAddedSubList().get(0), value);
+					        		
+					        	}
+					        	else if(c.wasAdded()) {
+					        		System.out.println("Added: " + c.getAddedSubList());
+					        		ArrayList<ImageDetails> value = new ArrayList<ImageDetails>();
+					        		detsDict.put(c.getAddedSubList().get(0), value);
+					        	}
+					        	else if(c.wasRemoved()) {
+					        		System.out.println("Removed: " + c.getRemoved());
+					        		detsDict.remove(c.getRemoved().get(0));
+					        	}
 					        	
 					        }
+					        System.out.println("Dictionary Keys:" + detsDict.keySet());
 					    }
 				
 			});
