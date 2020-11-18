@@ -148,18 +148,23 @@ public class MainAppController {
 					public void handle(MouseEvent mouseEvent) {
 						// TODO Auto-generated method stub
 						if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
-							
 							selectedImage = newimage;
 							newimage.setEffect(new DropShadow(15, Color.BLACK));
 							// find image in hashtable by traversing, and matching to corresponding imgdetsobslist 
 							// then extract date, caption, and tags
 							String temp_selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
 							for(ImageDetails image: detsDict.get(temp_selectedalbum)) {
-								int imindex = addedImageDetails.indexOf(image);
+								int imindex = addedImages.indexOf(newimage);
+								//System.out.println("imindex:"+ imindex);
 								ImageDetails deetz = addedImageDetails.get(imindex);
-								if(deetz.image_path.equals(image.image_path)) {
+								System.out.println(deetz.getPath());
+								System.out.println(image.getPath());
+								if(deetz.getPath().equals(image.getPath())) {
+									System.out.println("works?");
 									Calendar cal = deetz.getCal();
 									Date capdatetime = cal.getTime();
+									photocaption.setText(null);
+									taglistview.setItems(null);
 									photocaption.setText("Last modified date: " + df.format(capdatetime) + " " + image.caption);
 									ObservableList<String> temp_tags = FXCollections.observableArrayList();
 									if(image.getTags()!=null) {
