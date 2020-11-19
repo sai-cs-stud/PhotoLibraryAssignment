@@ -215,7 +215,17 @@ public class MainAppController {
 							int imindex = addedImages.indexOf(img);
 							ImageDetails deetz = addedImageDetails.get(imindex);
 							displayEditCaptionMenu(deetz);
-							
+							// this runs before the image detail is updated in the controller for some reason
+							for(ImageDetails newDets: detsDict.get(albumlistview.getSelectionModel().getSelectedItem())) {
+								if(newDets.getPath().equals(deetz.getPath())) {
+									System.out.println("check?");
+									addedImageDetails.set(imindex, newDets);
+									Calendar cal = newDets.getCal();
+									Date capdatetime = cal.getTime();
+									photocaption.setText(null);
+									photocaption.setText("Last modified date: " + df.format(capdatetime) + "\n" + newDets.caption);
+								}
+							}
 						}
 					}
 				}
