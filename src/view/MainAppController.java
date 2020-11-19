@@ -157,15 +157,15 @@ public class MainAppController {
 								int imindex = addedImages.indexOf(newimage);
 								//System.out.println("imindex:"+ imindex);
 								ImageDetails deetz = addedImageDetails.get(imindex);
-								System.out.println(deetz.getPath());
-								System.out.println(image.getPath());
+								//System.out.println(deetz.getPath());
+								//System.out.println(image.getPath());
 								if(deetz.getPath().equals(image.getPath())) {
-									System.out.println("works?");
+									//System.out.println("works?");
 									Calendar cal = deetz.getCal();
 									Date capdatetime = cal.getTime();
 									photocaption.setText(null);
 									taglistview.setItems(null);
-									photocaption.setText("Last modified date: " + df.format(capdatetime) + " " + image.caption);
+									photocaption.setText("Last modified date: " + df.format(capdatetime) + "\n" + image.caption);
 									ObservableList<String> temp_tags = FXCollections.observableArrayList();
 									if(image.getTags()!=null) {
 										temp_tags.addAll(image.getTags());
@@ -363,16 +363,11 @@ public class MainAppController {
 		displayEditMenu.setTitle("Edit Image's Caption");
 		ecc.photo = imagedetails;
 		displayEditMenu.setResizable(false);
+		ecc.ecc_detsDict = detsDict;
+		ecc.curr_alb = albumlistview.getSelectionModel().getSelectedItem();
 		ecc.start(displayEditMenu);
 		displayEditMenu.show();
-		String temp_selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
-		for(ImageDetails detz: detsDict.get(temp_selectedalbum)) {
-			if(detz.image_path.equals(ecc.photo.image_path)) {
-				detz.caption = ecc.caption.getText();
-				
-			}
-		}
-
+		detsDict = ecc.ecc_detsDict;
 	}
 	private void displayAlbumMenu() throws IOException{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/albummenu.fxml"));
