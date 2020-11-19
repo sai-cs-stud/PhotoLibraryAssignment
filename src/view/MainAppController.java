@@ -263,8 +263,10 @@ public class MainAppController {
 					        		System.out.println("Added: " + c.getAddedSubList());
 					        		ArrayList<ImageDetails> value = detsDict.get(c.getRemoved().get(0));
 					        		detsDict.remove(c.getRemoved().get(0));
-					        		detsDict.put(c.getAddedSubList().get(0), value);
-					        		
+					        		if(value!=null) {
+					        			detsDict.put(c.getAddedSubList().get(0), value);
+					        			//System.out.println(detsDict.get(c.getAddedSubList().get(0)).get(0).image_path);
+					        		}
 					        	}
 					        	else if(c.wasAdded()) {
 					        		System.out.println("Added: " + c.getAddedSubList());
