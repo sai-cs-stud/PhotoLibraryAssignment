@@ -141,7 +141,30 @@ public class MainAppController {
 					
 					detsDict.get(selectedalbum).add(newimagedetails);
 					System.out.println("Album contents:" + Arrays.toString(detsDict.get(selectedalbum).toArray()));
-				
+				albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent mouseEvent) {
+						String curr_selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
+						if(curr_selectedalbum!=null) {
+							mytilepane.getChildren().clear();
+							for(ImageDetails deetz: detsDict.get(curr_selectedalbum)) {
+								int fldIndex = 0;
+								for(ImageDetails fullList_deetz: addedImageDetails) {
+									if(fullList_deetz.getPath().equals(deetz.getPath())) {
+										if(fullList_deetz.getCaption()==null && deetz.getCaption() == null) {
+											mytilepane.getChildren().addAll(addedImages.get(fldIndex));
+										}
+										else if(fullList_deetz.getCaption()!=null && deetz.getCaption() != null 
+												&& fullList_deetz.getCaption().equals(deetz.getCaption())){
+											mytilepane.getChildren().addAll(addedImages.get(fldIndex));
+										}
+									}
+									fldIndex++;
+								}
+							}
+						}
+					}
+				});
 				newimage.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 					@Override
@@ -272,6 +295,8 @@ public class MainAppController {
 					        		System.out.println("Added: " + c.getAddedSubList());
 					        		ArrayList<ImageDetails> value = new ArrayList<ImageDetails>();
 					        		detsDict.put(c.getAddedSubList().get(0), value);
+					        		
+					        		
 					        	}
 					        	else if(c.wasRemoved()) {
 					        		System.out.println("Removed: " + c.getRemoved());
