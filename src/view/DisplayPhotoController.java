@@ -17,11 +17,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class DisplayPhotoController {
+	@FXML AnchorPane anchorpane;
 	@FXML TilePane photopane;
 	@FXML Label date_time;
 	@FXML Label caption;
@@ -43,16 +45,19 @@ public class DisplayPhotoController {
 		Calendar cal = photo.getCal();
 		Date datetime = cal.getTime();
 		Label datelabel = new Label();
-		datelabel.setText("Last modified date: " +  df.format(datetime));
+		date_time.setText("Last modified date: " +  df.format(datetime));
 		String cap = photo.getCaption();
 		ArrayList<String> taglist = photo.getTags();
+		Label captionlabel = new Label();
+		Label tagslabel = new Label();
+		
 		if(cap != null) {
 			caption.setText(cap);
 		}
-		if(tags != null) {
+		if(taglist != null) {
 			StringBuffer sb = new StringBuffer();
 			for(String tag : taglist ) {
-				sb.append(tag);
+				sb.append(tag + ", ");
 			}
 			String sbtoString = sb.toString();
 			tags.setText(sbtoString);
@@ -62,12 +67,12 @@ public class DisplayPhotoController {
 		imview.setFitWidth(500);
 		imview.setPreserveRatio(true);
 		imview.setEffect(null);
-
-		photopane.setHgap(1);
-		photopane.setVgap(1);
+		date_time.setWrapText(true);
+		caption.setWrapText(true);
+		tags.setWrapText(true);
 		mainStage.setHeight(700);
 		mainStage.setWidth(700);
-		photopane.getChildren().addAll(imview, datelabel, caption, tags);
+		anchorpane.getChildren().addAll(imview);
 	
 
 		mainStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
