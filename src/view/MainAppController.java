@@ -340,8 +340,6 @@ public class MainAppController {
 					        }
 					        System.out.println("Dictionary Keys:" + detsDict.keySet());
 					    }
-				
-				
 			});
 		}
 		else if(b==addtagbutton) {
@@ -405,6 +403,18 @@ public class MainAppController {
 			}
 			catch(Exception io) {
 				io.printStackTrace();
+			}
+		}
+		else if(b == slideshowbutton) {
+			String albumname = albumlistview.getSelectionModel().getSelectedItem();
+			ArrayList<ImageDetails> photolist = detsDict.get(albumname);
+			System.out.println(photolist);
+			if(photolist.isEmpty()) {
+				Alert nophotos = new Alert(AlertType.ERROR);
+				nophotos.setContentText("No photos bruh!");
+				nophotos.show();
+			}else {
+			slideshowDisplay(photolist);
 			}
 		}
 	}
@@ -479,6 +489,15 @@ public class MainAppController {
 		albumcontroller.start(albumstage);
 		albumstage.show();
 		
+	}
+	private void slideshowDisplay(ArrayList<ImageDetails> imgdeetz) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/slideshow.fxml"));
+		Stage slideshowstage = (Stage)loader.load();
+		slideshowController slideshowcon = loader.getController();
+		slideshowstage.setTitle("Slideshow");
+		slideshowcon.albumphotos = imgdeetz;
+		slideshowcon.start(slideshowstage);
+		slideshowstage.show();
 	}
 	
 	
