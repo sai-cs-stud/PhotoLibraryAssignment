@@ -142,30 +142,7 @@ public class MainAppController {
 					
 					detsDict.get(selectedalbum).add(newimagedetails);
 					System.out.println("Album contents:" + Arrays.toString(detsDict.get(selectedalbum).toArray()));
-				albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent mouseEvent) {
-						String curr_selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
-						if(curr_selectedalbum!=null) {
-							mytilepane.getChildren().clear();
-							for(ImageDetails deetz: detsDict.get(curr_selectedalbum)) {
-								int fldIndex = 0;
-								for(ImageDetails fullList_deetz: addedImageDetails) {
-									if(fullList_deetz.getPath().equals(deetz.getPath())) {
-										if(fullList_deetz.getCaption()==null && deetz.getCaption() == null) {
-											mytilepane.getChildren().addAll(addedImages.get(fldIndex));
-										}
-										else if(fullList_deetz.getCaption()!=null && deetz.getCaption() != null 
-												&& fullList_deetz.getCaption().equals(deetz.getCaption())){
-											mytilepane.getChildren().addAll(addedImages.get(fldIndex));
-										}
-									}
-									fldIndex++;
-								}
-							}
-						}
-					}
-				});
+				
 				newimage.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 					@Override
@@ -231,11 +208,17 @@ public class MainAppController {
 				for (ImageView img: addedImages) {
 					if(img.getEffect() != null) {
 						Alert alert = new Alert(AlertType.CONFIRMATION);
-						alert.show();
-						
+						int imindex = addedImages.indexOf(img);
 						Optional<ButtonType> option = alert.showAndWait();
-						if(option.get() == ButtonType.OK) {
+						if(option.get().equals(ButtonType.OK)) {
+							
+							System.out.println("Button = OK");
+							String selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
+							ArrayList<ImageDetails> albuminphoto = detsDict.get(selectedalbum);
+							albuminphoto.remove(imindex);
 							mytilepane.getChildren().remove(img);
+							photocaption.setText("");
+							
 						}
 						else {
 							break;
@@ -308,17 +291,13 @@ public class MainAppController {
 					        		System.out.println("Added: " + c.getAddedSubList());
 					        		ArrayList<ImageDetails> value = detsDict.get(c.getRemoved().get(0));
 					        		detsDict.remove(c.getRemoved().get(0));
-					        		if(value!=null) {
-					        			detsDict.put(c.getAddedSubList().get(0), value);
-					        			//System.out.println(detsDict.get(c.getAddedSubList().get(0)).get(0).image_path);
-					        		}
+					        		detsDict.put(c.getAddedSubList().get(0), value);
+					        		
 					        	}
 					        	else if(c.wasAdded()) {
 					        		System.out.println("Added: " + c.getAddedSubList());
 					        		ArrayList<ImageDetails> value = new ArrayList<ImageDetails>();
 					        		detsDict.put(c.getAddedSubList().get(0), value);
-					        		
-					        		
 					        	}
 					        	else if(c.wasRemoved()) {
 					        		System.out.println("Removed: " + c.getRemoved());
