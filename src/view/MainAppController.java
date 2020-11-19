@@ -108,8 +108,24 @@ public class MainAppController {
 				else if(albumlistview.getSelectionModel().isEmpty()) {
 					albumissue.show();
 				}
-				else {	
+				else {
+					boolean dupe = false;
 					String selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
+					String myphotopath = newphoto.getAbsolutePath();
+
+					try {
+						ArrayList<ImageDetails> dupechecklist = detsDict.get(selectedalbum);
+						for(ImageDetails imgdeetz : dupechecklist) {
+							if(imgdeetz.getPath().equals(myphotopath)) {
+								dupe = true;
+								badinput.show();
+							}
+						}
+						
+					}catch(Exception io) {
+						io.printStackTrace();
+					}
+					if(dupe == false) {
 					ArrayList<String> tags = new ArrayList<String>();
 					String caps = null;
 					//getpath of photo I want to add
@@ -120,7 +136,6 @@ public class MainAppController {
 					calendar.set(Calendar.MILLISECOND, 0);
 					System.out.println(calendar.getTime());
 					System.out.println(newphoto.getAbsolutePath());
-					String myphotopath = newphoto.getAbsolutePath();
 					//create an imagedetail with all the properties
 					ImageDetails newimagedetails = new ImageDetails(myphotopath, calendar, caps, tags);
 					addedImageDetails.add(newimagedetails);
@@ -197,17 +212,17 @@ public class MainAppController {
 					
 				});
 				}
-			
-				
-					
 			}
-			
+					
 		}
+			
+	}
 		else if(b==deletephotosbutton) {
 			try {
 				for (ImageView img: addedImages) {
 					if(img.getEffect() != null) {
 						Alert alert = new Alert(AlertType.CONFIRMATION);
+						alert.setContentText("Are you sure you want to delete this photo?");
 						int imindex = addedImages.indexOf(img);
 						Optional<ButtonType> option = alert.showAndWait();
 						if(option.get().equals(ButtonType.OK)) {
@@ -218,6 +233,7 @@ public class MainAppController {
 							albuminphoto.remove(imindex);
 							mytilepane.getChildren().remove(img);
 							photocaption.setText("");
+							taglistview.setItems(null);
 							
 						}
 						else {
