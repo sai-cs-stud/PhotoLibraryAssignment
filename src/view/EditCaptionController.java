@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,6 +33,8 @@ public class EditCaptionController {
 	
 	private Stage mainstage;
 	public ImageDetails photo;
+	public Hashtable<String,ArrayList<ImageDetails>> ecc_detsDict = null;
+	public String curr_alb;
 	
 	public void start(Stage mainStage) {
 		this.mainstage = mainStage;
@@ -72,16 +76,27 @@ public class EditCaptionController {
 		});
 
 	}
+	@FXML
 	protected void buttonPress(ActionEvent event) throws IOException{
-		Alert inputNull = new Alert(AlertType.ERROR);
-		inputNull.setContentText("No Input found");
+		Button b = (Button)event.getSource();
+		if(b==confirmEdit) {
+			System.out.println("works?");
+			Alert inputNull = new Alert(AlertType.ERROR);
+			inputNull.setContentText("No Input found");
+			
+			if(input.getText().trim().isEmpty()) {
+				inputNull.show();
+			}
+			else {
+				caption.setText(input.getText().trim());
+				input.setText("");
+				for(ImageDetails deetz: ecc_detsDict.get(curr_alb)) {
+					if(photo.getPath().equals(deetz.getPath())) {
+						deetz.resetCaption(caption.getText());
+					}
+				}
+			}
+		}
 		
-		if(input.getText().trim().isEmpty()) {
-			inputNull.show();
-		}
-		else {
-			caption.setText(input.getText().trim());
-			input.setText("");
-		}
 	}
 }
