@@ -23,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
@@ -56,7 +57,7 @@ public class MainAppController {
 	@FXML Button deletetagbutton;
 	@FXML Button addtagbutton;
 	@FXML Button addphotobutton;
-	@FXML Button deletephotobutton;
+	@FXML Button deletephotosbutton;
 	@FXML Button editalbumbutton;
 	@FXML Button slideshowbutton;
 	@FXML Button searchbutton;
@@ -201,6 +202,27 @@ public class MainAppController {
 					
 			}
 			
+		}
+		else if(b==deletephotosbutton) {
+			try {
+				for (ImageView img: addedImages) {
+					if(img.getEffect() != null) {
+						Alert alert = new Alert(AlertType.CONFIRMATION);
+						alert.show();
+						
+						Optional<ButtonType> option = alert.showAndWait();
+						if(option.get() == ButtonType.OK) {
+							mytilepane.getChildren().remove(img);
+						}
+						else {
+							break;
+						}
+					}
+				}
+			}
+			catch(Exception io) {
+				io.getStackTrace();
+			}
 		}
 		else if(b==editcaptionbutton) {
 			if(selectedImage==null) {
