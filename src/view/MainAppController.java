@@ -290,6 +290,7 @@ public class MainAppController {
 							if(mytags.isEmpty()) {
 								mytags.add(newtag);
 							}
+							else {
 							for(String tag : mytags) {
 								if(newtag.equals(tag)) {
 									checker = false;
@@ -298,9 +299,16 @@ public class MainAppController {
 							}
 							if(checker != false) {
 								mytags.add(newtag);
+								
 							}
-							
+	
 						}
+							ObservableList<String> tagobslist = FXCollections.observableArrayList();
+							ArrayList<String> updatetags = deetz.getTags();
+							tagobslist.addAll(updatetags);
+							taglistview.setItems(tagobslist);
+						}
+						
 					}
 				}
 				catch(Exception io) {
@@ -308,6 +316,25 @@ public class MainAppController {
 				}
 			}
 			
+		}
+		else if(b == deletetagbutton) {
+			try {
+				for(ImageView img: addedImages) {
+					if(img.getEffect() != null) {
+						int imindex = addedImages.indexOf(img);
+						ImageDetails deetz = addedImageDetails.get(imindex);
+						ArrayList<String> deletabletags = deetz.getTags();
+						String tagname = taglistview.getSelectionModel().getSelectedItem();
+						deletabletags.remove(tagname);
+						taglistview.getItems().remove(tagname);				
+					}
+				}
+								
+				
+			}
+			catch(Exception io) {
+				io.printStackTrace();
+			}
 		}
 	}
 
