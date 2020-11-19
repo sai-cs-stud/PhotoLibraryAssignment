@@ -157,7 +157,24 @@ public class MainAppController {
 					
 					detsDict.get(selectedalbum).add(newimagedetails);
 					System.out.println("Album contents:" + Arrays.toString(detsDict.get(selectedalbum).toArray()));
-				
+
+					albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
+						
+						@Override
+						public void handle(MouseEvent mouseEvent) {
+							mytilepane.getChildren().clear();
+							String temp_selectedAlb = albumlistview.getSelectionModel().getSelectedItem();
+							for(ImageDetails deetz: detsDict.get(temp_selectedAlb)) {
+								int imgindex =0;
+								for(ImageDetails master_dets : addedImageDetails) {
+									if(master_dets==deetz) {
+										mytilepane.getChildren().addAll(addedImages.get(imgindex));
+									}
+									imgindex++;
+								}
+							}
+						}
+					});
 				newimage.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 					@Override
