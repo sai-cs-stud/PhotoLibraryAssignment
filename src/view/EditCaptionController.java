@@ -5,7 +5,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Hashtable;
 
 import javafx.event.ActionEvent;
@@ -35,11 +38,17 @@ public class EditCaptionController {
 	public ImageDetails photo;
 	public Hashtable<String,ArrayList<ImageDetails>> ecc_detsDict = null;
 	public String curr_alb;
+	public TextArea textarearef;
+	
+	String pattern = "MM/dd/yyyy HH:mm:ss";
+	SimpleDateFormat df = new SimpleDateFormat(pattern);
+	
 	
 	public void start(Stage mainStage) {
 		this.mainstage = mainStage;
 		//this.photo = photo;
 		String photopath = photo.getPath();
+		
 		File photofile = new File(photopath);
 		Image photoim = null;
 		try {
@@ -88,7 +97,11 @@ public class EditCaptionController {
 				inputNull.show();
 			}
 			else {
+				Calendar cal = photo.getCal();
+				Date photodatetime = cal.getTime();
+				String stringdate = df.format(photodatetime);
 				caption.setText(input.getText().trim());
+				textarearef.setText("Last modified date: " + stringdate + " " + input.getText().trim());
 				input.setText("");
 				for(ImageDetails deetz: ecc_detsDict.get(curr_alb)) {
 					if(photo.getPath().equals(deetz.getPath())) {

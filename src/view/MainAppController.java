@@ -354,6 +354,7 @@ public class MainAppController {
 		this.mainStage = mainStage;
 		albobslist = FXCollections.observableArrayList();
 		photocaption.setEditable(false);
+		photocaption.setWrapText(true);
 
 		
 	}
@@ -399,6 +400,7 @@ public class MainAppController {
 		EditCaptionController ecc = loader.getController();
 		displayEditMenu.setTitle("Edit Image's Caption");
 		ecc.photo = imagedetails;
+		ecc.textarearef = photocaption;
 		displayEditMenu.setResizable(false);
 		ecc.ecc_detsDict = detsDict;
 		ecc.curr_alb = albumlistview.getSelectionModel().getSelectedItem();
