@@ -237,20 +237,22 @@ public class MainAppController {
 		else if(b==deletephotosbutton) {
 			try {
 				for (ImageView img: addedImages) {
+					System.out.println(addedImages);
 					if(img.getEffect() != null) {
 						Alert alert = new Alert(AlertType.CONFIRMATION);
 						alert.setContentText("Are you sure you want to delete this photo?");
-						int imindex = addedImages.indexOf(img);
 						Optional<ButtonType> option = alert.showAndWait();
 						if(option.get().equals(ButtonType.OK)) {
-							
 							System.out.println("Button = OK");
 							String selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
-							ArrayList<ImageDetails> albuminphoto = detsDict.get(selectedalbum);
-							albuminphoto.remove(imindex);
+							int imindex = addedImages.indexOf(img);
+							detsDict.get(selectedalbum).remove(imindex);
+							addedImages.remove(img);
+							addedImageDetails.remove(imindex);
 							mytilepane.getChildren().remove(img);
 							photocaption.setText("");
 							taglistview.setItems(null);
+							break;
 							
 						}
 						else {
