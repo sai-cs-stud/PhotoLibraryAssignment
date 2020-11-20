@@ -431,6 +431,9 @@ public class MainAppController {
 			}
 			
 		}
+		else if(b == searchbutton) {
+			searchDisplay();
+		}
 	}
 
 	
@@ -527,6 +530,14 @@ public class MainAppController {
 		copymovecon.start(copymovestage);
 		copymovestage.show();
 		
+	}
+	private void searchDisplay() throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/search.fxml"));
+		Stage searchStage = (Stage)loader.load();
+		SearchController searchcon = loader.getController();
+		searchStage.setTitle("Search");
+		searchcon.start(searchStage);
+		searchStage.show();
 	}
 	
 	
