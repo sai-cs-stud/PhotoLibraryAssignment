@@ -379,7 +379,7 @@ public class MainAppController {
 							if(mytags.isEmpty()) {
 								mytags.put(keytag, emptyarray);
 								mytags.get(keytag).add(spectag);
-								
+								checker = false;
 							}
 							else if(mytags.containsKey(keytag)) {
 							for(String tag : mytags.get(keytag)) {
@@ -388,17 +388,18 @@ public class MainAppController {
 									badinput.show();
 								}
 							}
+						}
 							if(checker != false) {
 								if(mytags.containsKey(keytag)) {
 								mytags.get(keytag).add(spectag);
 								}
-								else {
+								else{
 									mytags.put(keytag, emptyarray);
 									mytags.get(keytag).add(spectag);
 								}
 							}
 	
-						}
+						
 							ObservableList<String> tagobslist = FXCollections.observableArrayList();
 							Hashtable<String,ArrayList<String>> updatetags = deetz.getTags();
 							Set<String> tagkeys = updatetags.keySet();
@@ -428,9 +429,18 @@ public class MainAppController {
 						int imindex = addedImages.indexOf(img);
 						ImageDetails deetz = addedImageDetails.get(imindex);
 						Hashtable<String,ArrayList<String>> deletabletags = deetz.getTags();
+						if(deletabletags != null) {
 						String tagname = taglistview.getSelectionModel().getSelectedItem();
-						deletabletags.remove(tagname);
+						String[] tagspliced = tagname.split(", ");
+						String keytag = tagspliced[0];
+						String spectag = tagspliced[1];
+						//deletabletags.remove(tagname);
+						
+						
+						
 						taglistview.getItems().remove(tagname);				
+						
+						}
 					}
 				}
 								
