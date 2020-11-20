@@ -23,6 +23,7 @@ public class PhotoController {
 	@FXML private AnchorPane anchor;
 	@FXML private TextField userinputbar;
 	private Stage mainStage;
+	private boolean isStock = false;
 	
 	@FXML protected void login(ActionEvent event) {
 		String logininput = userinputbar.getText();
@@ -42,6 +43,9 @@ public class PhotoController {
 					
 					}
 					else{
+						if(logininput.equals("stock")) {
+							isStock = true;
+						}
 						mainAppStage();
 						break;
 						
@@ -95,6 +99,7 @@ public class PhotoController {
 	    MainAppController mainAppController = 
 				loader.getController();
 	    appStage.setTitle("App menu");
+	    mainAppController.isStock = isStock;
 		mainAppController.start(appStage);
 	    appStage.show();
 		

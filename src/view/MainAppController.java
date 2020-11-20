@@ -2,6 +2,7 @@ package view;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class MainAppController {
 	@FXML ScrollPane myscrollpane;
 	@FXML TilePane mytilepane;
 	
-	
+	public boolean isStock = false;
 	private Stage mainStage;
 	private Stage primaryStage;
 	ObservableList<String> albobslist;
@@ -436,16 +437,122 @@ public class MainAppController {
 		}
 	}
 
-	
-	public void start(Stage mainStage) {
-		// TODO Auto-generated method stub
-		this.mainStage = mainStage;
-		albobslist = FXCollections.observableArrayList();
-		photocaption.setEditable(false);
-		photocaption.setWrapText(true);
+	private void add_stock(String path) throws FileNotFoundException {
+		Alert badinput = new Alert (AlertType.ERROR);
+		badinput.setContentText("bad input");
+		File newphoto = new File(path);
+		if(newphoto != null) {
+				String selectedalbum = "Stock";
+				String myphotopath = newphoto.getAbsolutePath();
+				ArrayList<String> tags = new ArrayList<String>();
+				String caps = null;
 
-		
+				Date lastmoddate = new Date(newphoto.lastModified());
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(lastmoddate);
+				calendar.set(Calendar.MILLISECOND, 0);
+				System.out.println(calendar.getTime());
+				System.out.println(newphoto.getAbsolutePath());
+				//create an imagedetail with all the properties
+				ImageDetails newimagedetails = new ImageDetails(myphotopath, calendar, caps, tags);
+				addedImageDetails.add(newimagedetails);
+				File photofile = new File(myphotopath);
+				Image myphoto = new Image(new FileInputStream(photofile),150, 0, true, true);
+				StackPane background = new StackPane();
+				ImageView newimage = new ImageView(myphoto);
+				newimage.setFitWidth(150);
+				newimage.setFitHeight(mainStage.getHeight() - 10);
+				newimage.setPreserveRatio(true);
+				newimage.setSmooth(true);
+				newimage.setCache(true);
+				
+				mytilepane.setPadding(new Insets(15, 15, 15, 15));
+				mytilepane.setHgap(15);
+				mytilepane.getChildren().addAll(newimage);
+				addedImages.add(newimage);
+				
+				detsDict.get(selectedalbum).add(newimagedetails);
+				System.out.println("Album contents:" + Arrays.toString(detsDict.get(selectedalbum).toArray()));
+				albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent mouseEvent) {
+						mytilepane.getChildren().clear();
+						String temp_selectedAlb = "Stock";
+						for(ImageDetails deetz: detsDict.get(temp_selectedAlb)) {
+							int imgindex =0;
+							for(ImageDetails master_dets : addedImageDetails) {
+								if(master_dets==deetz) {
+									mytilepane.getChildren().addAll(addedImages.get(imgindex));
+								}
+								imgindex++;
+							}
+						}
+					}
+				});
+			newimage.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent mouseEvent) {
+					if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+						selectedImage = newimage;
+						newimage.setEffect(new DropShadow(15, Color.BLACK));
+						String temp_selectedalbum = "Stock";
+						for(ImageDetails image: detsDict.get(temp_selectedalbum)) {
+							int imindex = addedImages.indexOf(newimage);
+							ImageDetails deetz = addedImageDetails.get(imindex);
+							if(deetz.getPath().equals(image.getPath())) {
+								//System.out.println("works?");
+								Calendar cal = deetz.getCal();
+								Date capdatetime = cal.getTime();
+								photocaption.setText(null);
+								taglistview.setItems(null);
+								photocaption.setText("Last modified date: " + df.format(capdatetime) + "\n" + image.caption);
+								ObservableList<String> temp_tags = FXCollections.observableArrayList();
+								if(image.getTags()!=null) {
+									temp_tags.addAll(image.getTags());
+									taglistview.setItems(temp_tags);
+								}
+							}
+						}
+						for(ImageView image: addedImages) {
+							if(image!=newimage) {
+								if(image.getEffect()!=null) {
+									image.setEffect(null);
+								}
+							}
+						}
+					}
+					else {
+						newimage.setEffect(null);
+						photocaption.setText("");
+						taglistview.setItems(null);
+					}
+				}
+			});
 	}
+}
+public void start(Stage mainStage) {
+	// TODO Auto-generated method stub
+	this.mainStage = mainStage;
+	albobslist = FXCollections.observableArrayList();
+	photocaption.setEditable(false);
+	photocaption.setWrapText(true);
+	if(isStock == true) {
+		try {
+		ArrayList <ImageDetails> stock = new ArrayList<ImageDetails>();
+		detsDict.put("Stock", stock);
+		albobslist.add("Stock");
+		albumlistview.setItems(albobslist);
+		add_stock("data/deer.jpg");
+		add_stock("data/some_map.PNG");
+		add_stock("data/street_cat.jpg");
+		add_stock("data/Telugu.PNG");
+		add_stock("data/very_handsome_guy.jpg");
+		}
+		catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+}
 	private void LoginStage(Stage primaryStage) throws IOException {
 		this.primaryStage = primaryStage;
 		FXMLLoader loader = new FXMLLoader();   
@@ -480,6 +587,7 @@ public class MainAppController {
 
 	}
 	private void displayEditCaptionMenu(ImageDetails imagedetails) throws IOException{
+		//System.out.println("editmenu?");
 		//this.primaryStage = primaryStage;
 		FXMLLoader loader = new FXMLLoader();   
 		loader.setLocation(
