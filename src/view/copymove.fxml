@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Scene?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.stage.Stage?>
+
+<Stage xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CopyMoveController">
+    <scene>
+        <Scene>
+            <AnchorPane prefHeight="222.0" prefWidth="221.0">
+            <children>
+               <Button fx:id="movbutton" layoutX="71.0" layoutY="88.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="27.0" prefWidth="70.0" text="Move" />
+               <Button fx:id="copybutton" layoutX="71.0" layoutY="146.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="27.0" prefWidth="70.0" text="Copy" />
+               <TextField fx:id="albinput" layoutX="30.0" layoutY="34.0" promptText="album input" />
+            </children></AnchorPane>
+        </Scene>
+    </scene>
+</Stage>

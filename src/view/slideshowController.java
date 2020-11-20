@@ -48,10 +48,6 @@ public class slideshowController {
 				counter = counter - 1;
 			}
 			
-			
-			
-			
-		
 			}
 		}
 		

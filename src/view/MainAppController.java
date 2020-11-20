@@ -419,6 +419,18 @@ public class MainAppController {
 			slideshowDisplay(photolist);
 			}
 		}
+		else if(b == copymovebutton) {
+			String alname = albumlistview.getSelectionModel().getSelectedItem();
+			for(ImageView img: addedImages) {
+				if(img.getEffect() != null) {
+				int imindex = addedImages.indexOf(img);
+				ImageDetails deetz = addedImageDetails.get(imindex);
+				copymoveDisplay(alname, img, deetz, detsDict);
+				break;
+				}
+			}
+			
+		}
 	}
 
 	
@@ -500,6 +512,21 @@ public class MainAppController {
 		slideshowcon.albumphotos = imgdeetz;
 		slideshowcon.start(slideshowstage);
 		slideshowstage.show();
+	}
+	private void copymoveDisplay(String albumname, ImageView imageview, ImageDetails photo,
+			Hashtable<String,ArrayList<ImageDetails>> deetzDict) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/copymove.fxml"));
+		Stage copymovestage = (Stage)loader.load();
+		CopyMoveController copymovecon = loader.getController();
+		copymovestage.setTitle("Copy/Move?");
+		copymovecon.tilepaneref = mytilepane;
+		copymovecon.albumref = albumname;
+		copymovecon.imgviewref = imageview;
+		copymovecon.imagedetailsref = photo;
+		copymovecon.deetzdictref = deetzDict;
+		copymovecon.start(copymovestage);
+		copymovestage.show();
+		
 	}
 	
 	
