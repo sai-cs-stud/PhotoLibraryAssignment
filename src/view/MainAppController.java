@@ -435,8 +435,11 @@ public class MainAppController {
 						String keytag = tagspliced[0];
 						String spectag = tagspliced[1];
 						//deletabletags.remove(tagname);
-						
-						
+						deletabletags.get(keytag).remove(spectag);
+						ArrayList<String> arraytaglist = deletabletags.get(keytag);
+						if(arraytaglist.isEmpty()) {
+							deletabletags.remove(keytag);
+						}
 						
 						taglistview.getItems().remove(tagname);				
 						
