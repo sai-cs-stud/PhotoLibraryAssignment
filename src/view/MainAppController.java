@@ -478,7 +478,7 @@ public class MainAppController {
 			
 		}
 		else if(b == searchbutton) {
-			searchDisplay();
+			searchDisplay(detsDict);
 		}
 	}
 
@@ -692,11 +692,12 @@ public void start(Stage mainStage) {
 		copymovestage.show();
 		
 	}
-	private void searchDisplay() throws IOException {
+	private void searchDisplay(Hashtable<String,ArrayList<ImageDetails>> allthedeetz) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/search.fxml"));
 		Stage searchStage = (Stage)loader.load();
 		SearchController searchcon = loader.getController();
 		searchStage.setTitle("Search");
+		searchcon.deetzdictref = allthedeetz;
 		searchcon.start(searchStage);
 		searchStage.show();
 	}
