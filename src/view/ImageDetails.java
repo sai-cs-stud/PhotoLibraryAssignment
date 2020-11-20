@@ -2,13 +2,14 @@ package view;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Hashtable;
 
 public class ImageDetails {
 	String image_path;
 	Calendar date_time;
 	String caption;
-	ArrayList<String> tags;
-	public ImageDetails(String image_path, Calendar date_time, String caption, ArrayList<String> tags) {
+	Hashtable<String,ArrayList<String>> tags;
+	public ImageDetails(String image_path, Calendar date_time, String caption, Hashtable<String,ArrayList<String>> tags) {
 		this.image_path = image_path;
 		this.date_time = date_time;
 		this.caption = caption;
@@ -23,7 +24,7 @@ public class ImageDetails {
 	public void resetCaption(String caption) {
 		this.caption = caption;
 	}
-	public void resetTags(ArrayList<String> tags) {
+	public void resetTags(Hashtable<String,ArrayList<String>> tags) {
 		this.tags = tags;
 	}
 	public String getPath() {
@@ -36,7 +37,7 @@ public class ImageDetails {
 	public String getCaption() {
 		return caption;
 	}
-	public ArrayList<String> getTags() {
+	public Hashtable<String,ArrayList<String>> getTags() {
 		return tags;
 	}
 }

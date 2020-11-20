@@ -22,12 +22,14 @@ public class SearchController {
 @FXML RadioButton createbutton;
 private Stage mainStage;
 
+@FXML
 protected void buttonPress(ActionEvent event) throws IOException{
-	
+	Button b = (Button)event.getSource();
 }
 
 public void start(Stage mainStage) {
 	this.mainStage = mainStage;
+	System.out.println("searchtest");
 }
 
 }

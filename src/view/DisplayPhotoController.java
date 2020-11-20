@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Hashtable;
+import java.util.Set;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -47,18 +49,24 @@ public class DisplayPhotoController {
 		Label datelabel = new Label();
 		date_time.setText("Last modified date: " +  df.format(datetime));
 		String cap = photo.getCaption();
-		ArrayList<String> taglist = photo.getTags();
+		Hashtable<String,ArrayList<String>> taghash = photo.getTags();
 		Label captionlabel = new Label();
 		Label tagslabel = new Label();
 		
 		if(cap != null) {
 			caption.setText(cap);
 		}
-		if(taglist != null) {
+		if(taghash != null) {
 			StringBuffer sb = new StringBuffer();
-			for(String tag : taglist ) {
-				sb.append(tag + ", ");
+			Set<String> tagkeys = taghash.keySet();
+			ArrayList<String> tagarraylist = new ArrayList<String>();
+			for(String key : tagkeys) {
+				for(String keyspecs : taghash.get(key)) {
+					String tagformat = key + ", " + keyspecs;
+					sb.append(tagformat + ", ");
+				}
 			}
+		
 			String sbtoString = sb.toString();
 			tags.setText(sbtoString);
 		}

@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Optional;
+import java.util.Set;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -127,7 +128,7 @@ public class MainAppController {
 						io.printStackTrace();
 					}
 					if(dupe == false) {
-					ArrayList<String> tags = new ArrayList<String>();
+					Hashtable<String,ArrayList<String>> tags = new Hashtable<String,ArrayList<String>>();
 					String caps = null;
 					//getpath of photo I want to add
 					//String img_date_time = sdf.format(newphoto.lastModified());
@@ -202,8 +203,18 @@ public class MainAppController {
 									photocaption.setText("Last modified date: " + df.format(capdatetime) + "\n" + image.caption);
 									ObservableList<String> temp_tags = FXCollections.observableArrayList();
 									if(image.getTags()!=null) {
-										temp_tags.addAll(image.getTags());
+										Hashtable<String,ArrayList<String>> tagsfromimage = image.getTags();
+										Set<String> tagkeys = tagsfromimage.keySet();
+										ArrayList<String> tagarraylist = new ArrayList<String>();
+										for(String key : tagkeys) {
+											for(String keyspecs : tagsfromimage.get(key)) {
+												String tagformat = key + ", " + keyspecs;
+												tagarraylist.add(tagformat);
+											}
+										}
+										temp_tags.addAll(tagarraylist);
 										taglistview.setItems(temp_tags);
+										
 									}
 								}
 							}
@@ -352,32 +363,53 @@ public class MainAppController {
 			}
 			else {
 				String newtag = newtaginput.getText();
+				String[] tagsegs = newtag.split(", ");
+				String keytag = tagsegs[0];
+				String spectag = tagsegs[1];
+				//{person,sesh}
+
 				boolean checker = true;
 				try {
 					for(ImageView img : addedImages) {
 						if(img.getEffect() != null) {
 							int imindex = addedImages.indexOf(img);
 							ImageDetails deetz = addedImageDetails.get(imindex);
-							ArrayList<String> mytags = deetz.getTags();
+							Hashtable<String,ArrayList<String>> mytags = deetz.getTags();
+							ArrayList<String> emptyarray = new ArrayList<String>();
 							if(mytags.isEmpty()) {
-								mytags.add(newtag);
+								mytags.put(keytag, emptyarray);
+								mytags.get(keytag).add(spectag);
+								
 							}
-							else {
-							for(String tag : mytags) {
-								if(newtag.equals(tag)) {
+							else if(mytags.containsKey(keytag)) {
+							for(String tag : mytags.get(keytag)) {
+								if(spectag.equals(tag)) {
 									checker = false;
 									badinput.show();
 								}
 							}
 							if(checker != false) {
-								mytags.add(newtag);
-								
+								if(mytags.containsKey(keytag)) {
+								mytags.get(keytag).add(spectag);
+								}
+								else {
+									mytags.put(keytag, emptyarray);
+									mytags.get(keytag).add(spectag);
+								}
 							}
 	
 						}
 							ObservableList<String> tagobslist = FXCollections.observableArrayList();
-							ArrayList<String> updatetags = deetz.getTags();
-							tagobslist.addAll(updatetags);
+							Hashtable<String,ArrayList<String>> updatetags = deetz.getTags();
+							Set<String> tagkeys = updatetags.keySet();
+							ArrayList<String> tagarraylist = new ArrayList<String>();
+							for(String key : tagkeys) {
+								for(String keyspecs : updatetags.get(key)) {
+									String tagformat = key + ", " + keyspecs;
+									tagarraylist.add(tagformat);
+								}
+							}
+							tagobslist.addAll(tagarraylist);
 							taglistview.setItems(tagobslist);
 						}
 						
@@ -395,7 +427,7 @@ public class MainAppController {
 					if(img.getEffect() != null) {
 						int imindex = addedImages.indexOf(img);
 						ImageDetails deetz = addedImageDetails.get(imindex);
-						ArrayList<String> deletabletags = deetz.getTags();
+						Hashtable<String,ArrayList<String>> deletabletags = deetz.getTags();
 						String tagname = taglistview.getSelectionModel().getSelectedItem();
 						deletabletags.remove(tagname);
 						taglistview.getItems().remove(tagname);				
@@ -444,7 +476,7 @@ public class MainAppController {
 		if(newphoto != null) {
 				String selectedalbum = "Stock";
 				String myphotopath = newphoto.getAbsolutePath();
-				ArrayList<String> tags = new ArrayList<String>();
+				Hashtable<String,ArrayList<String>> tags = new Hashtable<String,ArrayList<String>>();
 				String caps = null;
 
 				Date lastmoddate = new Date(newphoto.lastModified());
@@ -508,11 +540,19 @@ public class MainAppController {
 								photocaption.setText("Last modified date: " + df.format(capdatetime) + "\n" + image.caption);
 								ObservableList<String> temp_tags = FXCollections.observableArrayList();
 								if(image.getTags()!=null) {
-									temp_tags.addAll(image.getTags());
+									Hashtable<String,ArrayList<String>> tagsfromimage = image.getTags();
+									Set<String> tagkeys = tagsfromimage.keySet();
+									ArrayList<String> tagarraylist = new ArrayList<String>();
+									for(String key : tagkeys) {
+										for(String keyspecs : tagsfromimage.get(key)) {
+											String tagformat = key + ", " + keyspecs;
+											tagarraylist.add(tagformat);
+										}
+									}
+									temp_tags.addAll(tagarraylist);
 									taglistview.setItems(temp_tags);
 								}
-							}
-						}
+							}}
 						for(ImageView image: addedImages) {
 							if(image!=newimage) {
 								if(image.getEffect()!=null) {
