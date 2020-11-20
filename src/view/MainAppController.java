@@ -581,6 +581,7 @@ public class MainAppController {
 					}
 				}
 			});
+			albumlistview.getSelectionModel().select(0);
 	}
 }
 public void start(Stage mainStage) {
