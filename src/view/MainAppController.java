@@ -166,6 +166,29 @@ public class MainAppController implements Serializable {
 					detsDict.get(selectedalbum).add(newimagedetails);
 					System.out.println("Album contents:" + Arrays.toString(detsDict.get(selectedalbum).toArray()));
 
+					// change album info here
+					Date start_date=null;
+					Date end_date=null;
+					int tot_imgs = detsDict.get(selectedalbum).size();
+					for(ImageDetails images : detsDict.get(selectedalbum)) {
+						//compare start and end dates and update albuminfolistview here
+						Calendar temp_c = images.date_time;
+						Date temp_d = temp_c.getTime();
+						if(start_date == null || temp_d.before(start_date)) {
+							System.out.println("s");
+							start_date = temp_d;
+						}
+						if(end_date == null || temp_d.after(end_date)) {
+							System.out.println("e");
+							end_date = temp_d;
+						}
+					}
+					//reset album info here
+					int albuminfo_index = albuminfo_listview.getSelectionModel().getSelectedIndex();
+					if(start_date != null && end_date != null) {
+						albinfo_ObsList.set(albuminfo_index, tot_imgs + " image(s) from " + df.format(start_date) + "-" + df.format(end_date));
+					}
+					
 					albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
 						
 						@Override
@@ -184,6 +207,8 @@ public class MainAppController implements Serializable {
 									imgindex++;
 								}
 							}
+							int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
+							albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
 						}
 					});
 				newimage.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -368,6 +393,7 @@ public class MainAppController implements Serializable {
 			albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent mouseEvent) {
+					System.out.println("switch info?");
 					String temp_selectedAlb = albumlistview.getSelectionModel().getSelectedItem();
 					int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
 					albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
