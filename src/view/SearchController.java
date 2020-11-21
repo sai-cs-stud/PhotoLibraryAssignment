@@ -18,6 +18,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
@@ -45,10 +47,12 @@ ObservableList<ImageView> imageViews = FXCollections.observableArrayList();
 
 @FXML
 protected void buttonPress(ActionEvent event) throws IOException, ParseException{
+	Alert alert = new Alert(AlertType.ERROR);
+	alert.setContentText("Bad inputtt!! BURH!");
 	Button b = (Button)event.getSource();
 	Set<String> albumkeys = deetzdictref.keySet();
 	ArrayList<ImageDetails> newalbumdeetz = new ArrayList<ImageDetails>();
-	
+	try {
 	if(b == datesearch) {
 		
 		for (String album : albumkeys) {
@@ -194,6 +198,9 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 		}
 		searchResultsDisplay(imageViews);
 	}
+}catch(Exception io) {
+	alert.show();
+}
 }
 
 public void start(Stage mainStage) {
