@@ -357,17 +357,25 @@ public class MainAppController {
 			});
 		}
 		else if(b==addtagbutton) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setContentText("Please make sure your tags are surrounded by spaces and have a space between the comma");
 			
 			if(newtaginput.getText().trim().isEmpty()) {
 				badinput.show();
 			}
 			else {
-				String newtag = newtaginput.getText();
+				try {
+				String newtag = newtaginput.getText().trim();
 				String[] tagsegs = newtag.split(", ");
 				String keytag = tagsegs[0];
 				String spectag = tagsegs[1];
 				//{person,sesh}
+				int specchecker = spectag.length() - 1;
+				if((keytag.charAt(0) != '{') || (spectag.charAt(specchecker) != '}')) {
+					alert.show();
 
+				}
+				else {
 				boolean checker = true;
 				try {
 					for(ImageView img : addedImages) {
@@ -421,7 +429,11 @@ public class MainAppController {
 				}
 			}
 			
+		}catch(ArrayIndexOutOfBoundsException io) {
+			alert.show();
 		}
+		}
+	}
 		else if(b == deletetagbutton) {
 			try {
 				for(ImageView img: addedImages) {
