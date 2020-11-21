@@ -159,6 +159,14 @@ public class MainAppController {
 					addedImages.add(newimage);
 					
 					detsDict.get(selectedalbum).add(newimagedetails);
+					// change album info here
+					String start_date="";
+					String end_date="";
+					int tot_imgs = detsDict.get(selectedalbum).size();
+					for(ImageDetails images : detsDict.get(selectedalbum)) {
+						//compare start and end dates and update albuminfolistview here
+					}
+					
 					System.out.println("Album contents:" + Arrays.toString(detsDict.get(selectedalbum).toArray()));
 
 					albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
