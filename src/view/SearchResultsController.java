@@ -8,24 +8,29 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class SearchResultsController {
-@FXML Pane mypane;
+@FXML ScrollPane myscrollpane;
+@FXML TilePane mytilepane;
 @FXML AnchorPane anchorpane;
 
 public ObservableList<ImageView> addedImagesref;
 	public void start(Stage searchResultsStage) {
-		mypane.getChildren().addAll(addedImagesref);
-		
+		for(ImageView imgview : addedImagesref) {
+		StackPane background = new StackPane();
+		mytilepane.getChildren().add(imgview);
+		}		
 		
 		searchResultsStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 			@Override
 			public void handle(WindowEvent we) {
 				anchorpane.getChildren().clear();
+				addedImagesref.clear();
 				System.out.println("does this worksssss");
 			}
 			

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Scene?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.TilePane?>
 <?import javafx.stage.Stage?>
 
 <Stage xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.SearchResultsController">
@@ -10,7 +11,11 @@
         <Scene>
             <AnchorPane fx:id="anchorpane" prefHeight="401.0" prefWidth="500.0">
             <children>
-               <Pane fx:id="mypane" prefHeight="402.0" prefWidth="499.0" />
+               <ScrollPane fx:id="myscrollpane" layoutX="1.0" layoutY="-2.0" prefHeight="402.0" prefWidth="499.0">
+                  <content>
+                     <TilePane fx:id="mytilepane" prefHeight="401.0" prefWidth="496.0" />
+                  </content>
+               </ScrollPane>
             </children></AnchorPane>
         </Scene>
     </scene>

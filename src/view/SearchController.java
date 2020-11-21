@@ -44,10 +44,10 @@ ObservableList<ImageView> imageViews = FXCollections.observableArrayList();
 @FXML
 protected void buttonPress(ActionEvent event) throws IOException, ParseException{
 	Button b = (Button)event.getSource();
-	
+	Set<String> albumkeys = deetzdictref.keySet();
 	
 	if(b == datesearch) {
-		Set<String> albumkeys = deetzdictref.keySet();
+		
 		for (String album : albumkeys) {
 			for(ImageDetails photo : deetzdictref.get(album)) {
 				Calendar photocal = photo.getCal();
@@ -64,7 +64,7 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 					String impath = photo.getPath();
 					Image newimage = new Image(new FileInputStream(impath));
 					ImageView imview = new ImageView(newimage);
-					imview.setFitWidth(250);
+					imview.setFitWidth(150);
 					imview.setFitHeight(mainStage.getHeight() - 10);
 					imview.setPreserveRatio(true);
 					imview.setSmooth(true);
@@ -77,11 +77,100 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 		
 		
 	}
+	else if(b == tag1search) {
+		for (String album: albumkeys) {
+			for(ImageDetails photo : deetzdictref.get(album)) {
+				Hashtable<String, ArrayList<String>> tagdict = photo.getTags();
+				System.out.print(tagdict);
+				//person=sesh
+				String tag1text = tag1.getText().trim();
+				String[] tag1spliced = tag1text.split("=");
+				String tagkey = "{" + tag1spliced[0];
+				String spectag = tag1spliced[1] + "}";
+				if((tagdict.containsKey(tagkey) && tagdict.get(tagkey).contains(spectag))) {
+					String impath = photo.getPath();
+					Image newimage = new Image(new FileInputStream(impath));
+					ImageView imview = new ImageView(newimage);
+					imview.setFitWidth(150);
+					imview.setFitHeight(mainStage.getHeight() - 10);
+					imview.setPreserveRatio(true);
+					imview.setSmooth(true);
+					imview.setCache(true);
+					imageViews.add(imview);
+				
+				}
+				
+			}
+		}
+		searchResultsDisplay(imageViews);
+	}
+	else if(b == andsearch) {
+		for (String album: albumkeys) {
+			for(ImageDetails photo : deetzdictref.get(album)) {
+				Hashtable<String, ArrayList<String>> tagdict = photo.getTags();
+				String tag1text = tag1.getText().trim();
+				String[] tag1spliced = tag1text.split("=");
+				String tag1key = "{" + tag1spliced[0];
+				String spec1tag = tag1spliced[1] + "}";
+				
+				String tag2text = tag2.getText().trim();
+				String[] tag2spliced = tag2text.split("=");
+				String tag2key = "{" + tag2spliced[0];
+				String spec2tag = tag2spliced[1] + "}";
+				
+				if((tagdict.containsKey(tag1key) && tagdict.get(tag1key).contains(spec1tag)) &&
+					(tagdict.containsKey(tag2key) && tagdict.get(tag2key).contains(spec2tag))){
+					String impath = photo.getPath();
+					Image newimage = new Image(new FileInputStream(impath));
+					ImageView imview = new ImageView(newimage);
+					imview.setFitWidth(150);
+					imview.setFitHeight(mainStage.getHeight() - 10);
+					imview.setPreserveRatio(true);
+					imview.setSmooth(true);
+					imview.setCache(true);
+					imageViews.add(imview);
+					
+				}	
+			}
+		}
+		searchResultsDisplay(imageViews);
+	}
+	else if(b == orsearch) {
+		for (String album: albumkeys) {
+			for(ImageDetails photo : deetzdictref.get(album)) {
+				Hashtable<String, ArrayList<String>> tagdict = photo.getTags();
+				String tag1text = tag1.getText().trim();
+				String[] tag1spliced = tag1text.split("=");
+				String tag1key = "{" + tag1spliced[0];
+				String spec1tag = tag1spliced[1] + "}";
+				
+				String tag2text = tag2.getText().trim();
+				String[] tag2spliced = tag2text.split("=");
+				String tag2key = "{" + tag2spliced[0];
+				String spec2tag = tag2spliced[1] + "}";
+			
+				if((tagdict.containsKey(tag1key) && tagdict.get(tag1key).contains(spec1tag)) ||
+						(tagdict.containsKey(tag2key) && tagdict.get(tag2key).contains(spec2tag))){
+						String impath = photo.getPath();
+						Image newimage = new Image(new FileInputStream(impath));
+						ImageView imview = new ImageView(newimage);
+						imview.setFitWidth(150);
+						imview.setFitHeight(mainStage.getHeight() - 10);
+						imview.setPreserveRatio(true);
+						imview.setSmooth(true);
+						imview.setCache(true);
+						imageViews.add(imview);
+					
+				}
+			}
+		}
+		searchResultsDisplay(imageViews);
+	}
 }
 
 public void start(Stage mainStage) {
 	this.mainStage = mainStage;
-	System.out.println("searchtest");
+	
 }
 
 protected void searchResultsDisplay(ObservableList<ImageView> imageviewobs) throws IOException {
