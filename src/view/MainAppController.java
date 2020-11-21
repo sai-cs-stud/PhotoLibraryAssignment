@@ -167,7 +167,9 @@ public class MainAppController {
 						public void handle(MouseEvent mouseEvent) {
 							mytilepane.getChildren().clear();
 							String temp_selectedAlb = albumlistview.getSelectionModel().getSelectedItem();
-							
+							//int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
+							System.out.println("clicked on album?");
+							//albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
 							for(ImageDetails deetz: detsDict.get(temp_selectedAlb)) {
 								int imgindex =0;
 								for(ImageDetails master_dets : addedImageDetails) {
@@ -356,6 +358,15 @@ public class MainAppController {
 					        }
 					        System.out.println("Dictionary Keys:" + detsDict.keySet());
 					    }
+			});
+			
+			albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent mouseEvent) {
+					String temp_selectedAlb = albumlistview.getSelectionModel().getSelectedItem();
+					int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
+					albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
+				}
 			});
 		}
 		else if(b==addtagbutton) {
@@ -597,6 +608,7 @@ public class MainAppController {
 				}
 			});
 			albumlistview.getSelectionModel().select(0);
+			albuminfo_listview.getSelectionModel().select(0);
 	}
 }
 public void start(Stage mainStage) {
