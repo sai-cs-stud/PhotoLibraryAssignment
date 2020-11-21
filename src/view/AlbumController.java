@@ -32,7 +32,9 @@ public class AlbumController {
 	
 	private Stage mainStage;
 	public ListView<String> albumlist;
+	public ListView<String> albuminfo_list;
 	public ObservableList<String> albumobslist = FXCollections.observableArrayList();
+	public ObservableList<String> albuminfo_ObsList = FXCollections.observableArrayList();
 	@FXML
 	protected void buttonPress(ActionEvent event) throws IOException{
 		Alert noalbumserr = new Alert(AlertType.ERROR);
@@ -57,6 +59,7 @@ public class AlbumController {
 			if(albumobslist.isEmpty()) {
 				System.out.println(newalbumname);
 				albumobslist.add(newalbumname);
+				albuminfo_ObsList.add("empty");
 			}
 			//Album not empty? search through it and check if theres duplicates 
 			else {
@@ -71,6 +74,7 @@ public class AlbumController {
 				//no dupe? add the album 
 					if(dupe == false) {
 						albumobslist.add(newalbumname);
+						albuminfo_ObsList.add("empty");
 					}
 				
 			}
@@ -84,7 +88,9 @@ public class AlbumController {
 				String delalbumname = deletealbum_tf.getText();
 				for (String album: albumobslist) {
 					if(delalbumname.equals(album)) {
+						int index = albumobslist.indexOf(delalbumname);
 						albumobslist.remove(delalbumname);
+						albuminfo_ObsList.remove(index);
 						break;
 					}
 				}
@@ -138,6 +144,8 @@ public class AlbumController {
 			
 		albumlist.setItems(albumobslist);
 		System.out.println(albumobslist);
+		albuminfo_list.setItems(albuminfo_ObsList);
+		System.out.println(albuminfo_ObsList);
 	}
 		
 

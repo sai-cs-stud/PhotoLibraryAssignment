@@ -75,6 +75,7 @@ public class MainAppController {
 	private Stage mainStage;
 	private Stage primaryStage;
 	ObservableList<String> albobslist;
+	ObservableList<String> albinfo_ObsList;
 	ImageView selectedImage;
 	ObservableList<ImageView> addedImages= FXCollections.observableArrayList();
 	ObservableList<ImageDetails> addedImageDetails = FXCollections.observableArrayList();
@@ -166,6 +167,7 @@ public class MainAppController {
 						public void handle(MouseEvent mouseEvent) {
 							mytilepane.getChildren().clear();
 							String temp_selectedAlb = albumlistview.getSelectionModel().getSelectedItem();
+							
 							for(ImageDetails deetz: detsDict.get(temp_selectedAlb)) {
 								int imgindex =0;
 								for(ImageDetails master_dets : addedImageDetails) {
@@ -544,6 +546,7 @@ public class MainAppController {
 								imgindex++;
 							}
 						}
+						
 					}
 				});
 			newimage.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -600,6 +603,7 @@ public void start(Stage mainStage) {
 	// TODO Auto-generated method stub
 	this.mainStage = mainStage;
 	albobslist = FXCollections.observableArrayList();
+	albinfo_ObsList = FXCollections.observableArrayList();
 	photocaption.setEditable(false);
 	photocaption.setWrapText(true);
 	if(isStock == true) {
@@ -607,7 +611,9 @@ public void start(Stage mainStage) {
 		ArrayList <ImageDetails> stock = new ArrayList<ImageDetails>();
 		detsDict.put("Stock", stock);
 		albobslist.add("Stock");
+		albinfo_ObsList.add("filler for now");
 		albumlistview.setItems(albobslist);
+		albuminfo_listview.setItems(albinfo_ObsList);
 		add_stock("data/deer.jpg");
 		add_stock("data/some_map.PNG");
 		add_stock("data/street_cat.jpg");
@@ -677,6 +683,8 @@ public void start(Stage mainStage) {
 		albumstage.setTitle("Album menu");
 		albumcontroller.albumlist = albumlistview;
 		albumcontroller.albumobslist = albobslist;
+		albumcontroller.albuminfo_list = albuminfo_listview;
+		albumcontroller.albuminfo_ObsList = albinfo_ObsList;
 		albumcontroller.start(albumstage);
 		albumstage.show();
 		
