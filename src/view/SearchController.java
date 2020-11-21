@@ -34,6 +34,8 @@ public class SearchController {
 @FXML Button andsearch;
 @FXML Button orsearch;
 @FXML RadioButton createbutton;
+@FXML TextField optalbname;
+
 private Stage mainStage;
 public Hashtable<String,ArrayList<ImageDetails>> deetzdictref;
 
@@ -45,6 +47,7 @@ ObservableList<ImageView> imageViews = FXCollections.observableArrayList();
 protected void buttonPress(ActionEvent event) throws IOException, ParseException{
 	Button b = (Button)event.getSource();
 	Set<String> albumkeys = deetzdictref.keySet();
+	ArrayList<ImageDetails> newalbumdeetz = new ArrayList<ImageDetails>();
 	
 	if(b == datesearch) {
 		
@@ -70,10 +73,17 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 					imview.setSmooth(true);
 					imview.setCache(true);
 					imageViews.add(imview);
+					if(createbutton.isSelected()) {
+						newalbumdeetz.add(photo);
+					}
 				
 				}				
 			}}
+		if(createbutton.isSelected()) {
+			makeAlbum(optalbname.getText().trim(), newalbumdeetz, deetzdictref);
+		}
 		searchResultsDisplay(imageViews);
+		
 		
 		
 	}
@@ -97,10 +107,16 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 					imview.setSmooth(true);
 					imview.setCache(true);
 					imageViews.add(imview);
+					if(createbutton.isSelected()) {
+						newalbumdeetz.add(photo);
+					}
 				
 				}
 				
 			}
+		}
+		if(createbutton.isSelected()) {
+			makeAlbum(optalbname.getText().trim(), newalbumdeetz, deetzdictref);
 		}
 		searchResultsDisplay(imageViews);
 	}
@@ -129,9 +145,15 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 					imview.setSmooth(true);
 					imview.setCache(true);
 					imageViews.add(imview);
+					if(createbutton.isSelected()) {
+						newalbumdeetz.add(photo);
+					}
 					
 				}	
 			}
+		}
+		if(createbutton.isSelected()) {
+			makeAlbum(optalbname.getText().trim(), newalbumdeetz, deetzdictref);
 		}
 		searchResultsDisplay(imageViews);
 	}
@@ -160,9 +182,15 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 						imview.setSmooth(true);
 						imview.setCache(true);
 						imageViews.add(imview);
+						if(createbutton.isSelected()) {
+							newalbumdeetz.add(photo);
+						}
 					
 				}
 			}
+		}
+		if(createbutton.isSelected()) {
+			makeAlbum(optalbname.getText().trim(), newalbumdeetz, deetzdictref);
 		}
 		searchResultsDisplay(imageViews);
 	}
@@ -182,6 +210,11 @@ protected void searchResultsDisplay(ObservableList<ImageView> imageviewobs) thro
 	searchrescon.addedImagesref = imageviewobs;
 	searchrescon.start(searchResultsStage);
 	searchResultsStage.show();
+}
+
+private void makeAlbum(String newalbumname, ArrayList<ImageDetails> imgdeetz, Hashtable<String, ArrayList<ImageDetails>> dictupdate) {
+	dictupdate.put(newalbumname, imgdeetz);
+	
 }
 
 }
