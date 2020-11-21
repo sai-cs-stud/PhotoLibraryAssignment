@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
@@ -40,6 +42,10 @@ public class SearchController {
 
 private Stage mainStage;
 public Hashtable<String,ArrayList<ImageDetails>> deetzdictref;
+public ListView<String> albumlist;
+public ListView<String> albuminfo_list;
+public ObservableList<String> albumobslist = FXCollections.observableArrayList();
+public ObservableList<String> albuminfo_ObsList = FXCollections.observableArrayList();
 
 String pattern = "MM/dd/yyyy HH:mm:ss";
 SimpleDateFormat df = new SimpleDateFormat(pattern);
@@ -53,6 +59,9 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 	Set<String> albumkeys = deetzdictref.keySet();
 	ArrayList<ImageDetails> newalbumdeetz = new ArrayList<ImageDetails>();
 	try {
+	if(createbutton.isSelected()) {
+		System.out.println("Simplecheck");
+	}
 	if(b == datesearch) {
 		
 		for (String album : albumkeys) {
@@ -82,13 +91,15 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 					}
 				
 				}				
-			}}
-		if(createbutton.isSelected()) {
-			makeAlbum(optalbname.getText().trim(), newalbumdeetz, deetzdictref);
+			}
+			}
+			if(createbutton.isSelected()) {
+				System.out.println("do i get here?");
+				makeAlbum(optalbname.getText().trim(), newalbumdeetz);
+				searchResultsDisplay(imageViews);	
+			
 		}
-		searchResultsDisplay(imageViews);
-		
-		
+	
 		
 	}
 	else if(b == tag1search) {
@@ -120,9 +131,12 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 			}
 		}
 		if(createbutton.isSelected()) {
-			makeAlbum(optalbname.getText().trim(), newalbumdeetz, deetzdictref);
+			System.out.println("do i get here?");
+			makeAlbum(optalbname.getText().trim(), newalbumdeetz);
+			searchResultsDisplay(imageViews);	
+		
 		}
-		searchResultsDisplay(imageViews);
+
 	}
 	else if(b == andsearch) {
 		for (String album: albumkeys) {
@@ -157,9 +171,11 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 			}
 		}
 		if(createbutton.isSelected()) {
-			makeAlbum(optalbname.getText().trim(), newalbumdeetz, deetzdictref);
-		}
-		searchResultsDisplay(imageViews);
+			System.out.println("do i get here?");
+			makeAlbum(optalbname.getText().trim(), newalbumdeetz);
+			searchResultsDisplay(imageViews);	
+	}
+		
 	}
 	else if(b == orsearch) {
 		for (String album: albumkeys) {
@@ -194,13 +210,20 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 			}
 		}
 		if(createbutton.isSelected()) {
-			makeAlbum(optalbname.getText().trim(), newalbumdeetz, deetzdictref);
-		}
-		searchResultsDisplay(imageViews);
+			System.out.println("do i get here?");
+			makeAlbum(optalbname.getText().trim(), newalbumdeetz);
+			searchResultsDisplay(imageViews);	
+		
+	}
+
+		
 	}
 }catch(Exception io) {
 	alert.show();
 }
+	if(createbutton.isSelected() == false){
+	searchResultsDisplay(imageViews);	
+	}
 }
 
 public void start(Stage mainStage) {
@@ -219,8 +242,35 @@ protected void searchResultsDisplay(ObservableList<ImageView> imageviewobs) thro
 	searchResultsStage.show();
 }
 
-private void makeAlbum(String newalbumname, ArrayList<ImageDetails> imgdeetz, Hashtable<String, ArrayList<ImageDetails>> dictupdate) {
-	dictupdate.put(newalbumname, imgdeetz);
+private void makeAlbum(String newalbumname, ArrayList<ImageDetails> imgdeetz) {
+	System.out.println("Test12345");
+	System.out.println(deetzdictref);
+	if(dupeCheck(imgdeetz) == false) {
+		albumobslist.add(newalbumname);
+		albumlist.setItems(albumobslist);
+		deetzdictref.put(newalbumname, imgdeetz);
+	}
+	else {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setContentText("You got a dupe in this album, therefore it will not be created");
+		alert.show();
+	}
+	
+	
+}
+
+private boolean dupeCheck(ArrayList<ImageDetails> deeeetz) {
+	Set<String> seendeetz = new HashSet();
+	for(ImageDetails newdeetz : deeeetz) {
+		if(seendeetz.contains(newdeetz.getPath())) {
+			return true;
+		}
+		else {
+			seendeetz.add(newdeetz.getPath());
+		}
+	}
+	
+	return false;
 	
 }
 

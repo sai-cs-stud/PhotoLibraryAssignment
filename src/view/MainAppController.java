@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,8 +51,12 @@ import javafx.scene.input.MouseEvent;
 
 
 @SuppressWarnings("unused")
-public class MainAppController {
+public class MainAppController implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1511349364607780350L;
 	@FXML ListView<String> albumlistview;
 	@FXML ListView<String> albuminfo_listview;
 	@FXML ListView<String> taglistview;
@@ -159,14 +164,6 @@ public class MainAppController {
 					addedImages.add(newimage);
 					
 					detsDict.get(selectedalbum).add(newimagedetails);
-					// change album info here
-					String start_date="";
-					String end_date="";
-					int tot_imgs = detsDict.get(selectedalbum).size();
-					for(ImageDetails images : detsDict.get(selectedalbum)) {
-						//compare start and end dates and update albuminfolistview here
-					}
-					
 					System.out.println("Album contents:" + Arrays.toString(detsDict.get(selectedalbum).toArray()));
 
 					albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -739,6 +736,8 @@ public void start(Stage mainStage) {
 		SearchController searchcon = loader.getController();
 		searchStage.setTitle("Search");
 		searchcon.deetzdictref = allthedeetz;
+		searchcon.albumlist = albumlistview;
+		searchcon.albumobslist = albobslist;
 		searchcon.start(searchStage);
 		searchStage.show();
 	}
