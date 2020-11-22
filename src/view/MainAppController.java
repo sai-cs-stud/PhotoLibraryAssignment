@@ -299,16 +299,22 @@ public class MainAppController implements Serializable {
 							System.out.println("Button = OK");
 							String selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
 							System.out.println(selectedalbum);
+							
 							int imindex = addedImages.indexOf(img);
-							System.out.println("pass thru here");
-							System.out.println("wya: "+detsDict.get(selectedalbum).get(imindex));
-							System.out.println("pass thru here2");
-							detsDict.get(selectedalbum).remove(imindex);
-							addedImages.remove(img);
-							addedImageDetails.remove(imindex);
-							mytilepane.getChildren().remove(img);
-							photocaption.setText("");
-							taglistview.setItems(null);
+							String img_path = addedImageDetails.get(imindex).image_path;
+							int i=0;
+							for(ImageDetails id : detsDict.get(selectedalbum)) {
+								if(id.image_path.equals(img_path)) {
+									addedImages.remove(imindex);
+									addedImageDetails.remove(imindex);
+									mytilepane.getChildren().remove(img);
+									photocaption.setText("");
+									taglistview.setItems(null);
+									detsDict.get(selectedalbum).remove(i);
+									System.out.println("switch info?");
+								}
+								i++;
+							}
 							break;
 							
 						}
