@@ -312,6 +312,37 @@ public class MainAppController implements Serializable {
 									taglistview.setItems(null);
 									detsDict.get(selectedalbum).remove(i);
 									System.out.println("switch info?");
+									// change album info here
+									Date start_date=null;
+									Date end_date=null;
+									int tot_imgs = detsDict.get(selectedalbum).size();
+									for(ImageDetails images : detsDict.get(selectedalbum)) {
+										//compare start and end dates and update albuminfolistview here
+										Calendar temp_c = images.date_time;
+										Date temp_d = temp_c.getTime();
+										if(start_date == null || temp_d.before(start_date)) {
+											System.out.println("s");
+											start_date = temp_d;
+										}
+										if(end_date == null || temp_d.after(end_date)) {
+											System.out.println("e");
+											end_date = temp_d;
+										}
+									}
+									if(tot_imgs == 0) {
+										start_date=null;
+										end_date = null;
+									}
+									//reset album info here
+									int albuminfo_index = albuminfo_listview.getSelectionModel().getSelectedIndex();
+									if(start_date != null && end_date != null) {
+										albinfo_ObsList.set(albuminfo_index, tot_imgs + " image(s) from " + df.format(start_date) + "-" + df.format(end_date));
+									}
+									else {
+										albinfo_ObsList.set(albuminfo_index, "empty");
+									}
+									int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
+									albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
 								}
 								i++;
 							}
