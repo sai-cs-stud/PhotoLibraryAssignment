@@ -48,6 +48,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -773,6 +774,29 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 					taglistview.setItems(null);
 				}
 			}
+		});
+		mainStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent we) {
+				// TODO Auto-generated method stub
+				try {
+					ArrayList<String> s_albumlistview = new ArrayList<String>(albumlistview.getItems());
+					ArrayList<String> s_albuminfo_listview = new ArrayList<String>(albuminfo_listview.getItems());
+					ArrayList<ImageDetails> s_addedImageDetails = new ArrayList<ImageDetails>();
+					for(ImageDetails eachAD: addedImageDetails) {
+						s_addedImageDetails.add(eachAD);
+					}
+					SerializableData data = new SerializableData(login,s_albumlistview, s_albuminfo_listview,s_addedImageDetails,detsDict);
+					System.out.println("Login:" + login);
+					Photos.writeApp(data,login);
+			
+				} catch (Exception e) {
+			         e.printStackTrace();
+			      }
+			}
+		
+		
 		});
 	}
 	System.out.println(detsDict.toString());
