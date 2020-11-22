@@ -675,8 +675,8 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 	albinfo_ObsList = FXCollections.observableArrayList();
 	photocaption.setEditable(false);
 	photocaption.setWrapText(true);
-	//File check = new File(Photos.storeDir + File.separator + login + ".bin");
-	File check = new File(Photos.storeDir + File.separator + "photolib.bin");
+	File check = new File(Photos.storeDir + File.separator + login + ".bin");
+	//File check = new File(Photos.storeDir + File.separator + "photolib.bin");
 	if(check.length()==0) {
 		return;
 	}
@@ -685,6 +685,7 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 	if(prevSess==null) {
 		return;
 	}
+	detsDict = prevSess.dets_Dict;
 	albobslist.setAll(prevSess.albumlistview);
 	albinfo_ObsList.setAll(prevSess.albuminfo_listview);
 	albumlistview.setItems(albobslist);
@@ -704,7 +705,7 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 		mytilepane.setHgap(15);
 		mytilepane.getChildren().addAll(newimage);
 		addedImages.add(newimage);
-		detsDict = prevSess.dets_Dict;
+		
 		newimage.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {

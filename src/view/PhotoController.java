@@ -49,8 +49,8 @@ public class PhotoController {
 						if(logininput.equals("stock")) {
 							isStock = true;
 						}
-						//File file = new File(Photos.storeDir + File.separator + logininput + ".bin");
-						//file.createNewFile();
+						File file = new File(Photos.storeDir + File.separator + logininput + ".bin");
+						file.createNewFile();
 						mainAppStage();
 						break;
 						

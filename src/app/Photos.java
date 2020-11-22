@@ -69,8 +69,8 @@ public class Photos extends Application implements Serializable{
 	}
 	
 	public static void writeApp(SerializableData sd,String user) throws IOException{
-		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(storeDir + File.separator + "photolib.bin"));
-		//ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(storeDir + File.separator + user + ".bin"));
+		//ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(storeDir + File.separator + "photolib.bin"));
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(storeDir + File.separator + user + ".bin"));
 		
 		//File file = new File(storeDir + File.separator + user + ".bin");
 		//file.createNewFile();
@@ -78,8 +78,8 @@ public class Photos extends Application implements Serializable{
 		oos.close();
 	}
 	public static SerializableData readApp(String user) throws IOException, ClassNotFoundException {
-		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(storeDir + File.separator + "photolib.bin"));
-		//ObjectInputStream ois = new ObjectInputStream(new FileInputStream(storeDir + File.separator + user + ".bin"));
+		//ObjectInputStream ois = new ObjectInputStream(new FileInputStream(storeDir + File.separator + "photolib.bin"));
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(storeDir + File.separator + user + ".bin"));
 		SerializableData sd = (SerializableData)ois.readObject();
 		ois.close();
 		return sd;
