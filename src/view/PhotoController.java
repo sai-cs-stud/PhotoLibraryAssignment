@@ -6,6 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -28,18 +30,17 @@ public class PhotoController {
 	private boolean isStock = false;
 	String logininput;
 	@FXML protected void login(ActionEvent event) throws ClassNotFoundException {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setContentText("No userdata.txt found");
+		
 		logininput = userinputbar.getText();
-		System.out.println(logininput);
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(
 				"userData.txt"));
 			String line = reader.readLine();
 			while(line != null) {
-				System.out.println(line);
 				if(line.equals(logininput)) {
-					System.out.println("does this even work?");
 					if(line.equals("admin")) {
-						System.out.println("i am admin");
 							AdminStage();
 							break;
 					
@@ -61,8 +62,7 @@ public class PhotoController {
 			}
 			reader.close();
 			if(reader==null) {
-				System.out.println("Error: no userData.txt file found");
-				System.out.println("userData.txt must be in the project folder");
+				alert.show();
 			}
 		}
 		
@@ -96,7 +96,6 @@ public class PhotoController {
 	}  
 	
 	private void mainAppStage() throws IOException, ClassNotFoundException {
-		System.out.println("Does this work?");
 		mainStage.hide();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/mainapp.fxml"));
 	    Stage appStage = (Stage)loader.load();

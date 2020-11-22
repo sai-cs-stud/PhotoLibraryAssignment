@@ -1,6 +1,7 @@
 package view;
 
 import javafx.collections.FXCollections;
+
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,7 +32,6 @@ public ObservableList<ImageView> addedImagesref;
 			public void handle(WindowEvent we) {
 				anchorpane.getChildren().clear();
 				addedImagesref.clear();
-				System.out.println("does this worksssss");
 			}
 			
 		

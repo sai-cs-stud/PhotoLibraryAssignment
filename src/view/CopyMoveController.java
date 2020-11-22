@@ -1,6 +1,7 @@
 package view;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -31,8 +32,6 @@ private Stage mainStage;
 protected void buttonPress(ActionEvent event) throws IOException {
 	Button b = (Button)event.getSource();
 	String albumdest = albinput.getText().trim();
-	System.out.println(albumref);
-	System.out.println(imagedetailsref);
 	
 	if(deetzdictref.containsKey(albumdest)){
 		
@@ -67,7 +66,6 @@ protected void buttonPress(ActionEvent event) throws IOException {
 
 public void start(Stage mainStage){
 	this.mainStage = mainStage;
-	System.out.println(deetzdictref);
 }
 
 private boolean dupechecker(ImageDetails deet, String dest, Hashtable<String,ArrayList<ImageDetails>> dict) {

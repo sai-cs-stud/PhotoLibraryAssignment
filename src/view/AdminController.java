@@ -1,6 +1,7 @@
 package view;
 
 import java.io.BufferedReader;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -104,11 +105,9 @@ public class AdminController {
 			BufferedReader reader = new BufferedReader(new FileReader("userData.txt"));
 			String line = reader.readLine();
 			while(line != null) {
-				System.out.println(line);
 				obsList.add(line);
 				line = reader.readLine();
 			}
-			System.out.println(obsList);
 			listview.setItems(obsList);
 			listview.getSelectionModel().select(0);
 			reader.close();

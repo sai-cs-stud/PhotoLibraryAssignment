@@ -1,6 +1,7 @@
 package view;
 
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -57,7 +58,6 @@ public class slideshowController {
 		imagearray = new ArrayList<ImageView>();
 		counter = 0;
 		for(ImageDetails photo : albumphotos){
-			System.out.println("test");
 			String photopath = photo.getPath();
 			File photofile = new File(photopath);
 			Image myimg = new Image(new FileInputStream(photofile));
@@ -66,7 +66,6 @@ public class slideshowController {
 			myimgview.setFitWidth(600);
 			myimgview.setPreserveRatio(true);
 			myimgview.setEffect(null);
-			System.out.print(myimgview);
 			imagearray.add(myimgview);
 		}		
 		mypane.getChildren().add(imagearray.get(0));

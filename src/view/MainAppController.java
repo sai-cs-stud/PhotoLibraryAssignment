@@ -150,8 +150,6 @@ public class MainAppController implements Serializable {
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(lastmoddate);
 					calendar.set(Calendar.MILLISECOND, 0);
-					System.out.println(calendar.getTime());
-					System.out.println(newphoto.getAbsolutePath());
 					//create an imagedetail with all the properties
 					ImageDetails newimagedetails = new ImageDetails(myphotopath, calendar, caps, tags);
 					addedImageDetails.add(newimagedetails);
@@ -172,7 +170,6 @@ public class MainAppController implements Serializable {
 					addedImages.add(newimage);
 					
 					detsDict.get(selectedalbum).add(newimagedetails);
-					System.out.println("Album contents:" + Arrays.toString(detsDict.get(selectedalbum).toArray()));
 
 					// change album info here
 					Date start_date=null;
@@ -183,11 +180,9 @@ public class MainAppController implements Serializable {
 						Calendar temp_c = images.date_time;
 						Date temp_d = temp_c.getTime();
 						if(start_date == null || temp_d.before(start_date)) {
-							System.out.println("s");
 							start_date = temp_d;
 						}
 						if(end_date == null || temp_d.after(end_date)) {
-							System.out.println("e");
 							end_date = temp_d;
 						}
 					}
@@ -204,7 +199,6 @@ public class MainAppController implements Serializable {
 							mytilepane.getChildren().clear();
 							String temp_selectedAlb = albumlistview.getSelectionModel().getSelectedItem();
 							//int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
-							System.out.println("clicked on album?");
 							//albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
 							for(ImageDetails deetz: detsDict.get(temp_selectedAlb)) {
 								int imgindex =0;
@@ -291,15 +285,12 @@ public class MainAppController implements Serializable {
 		else if(b==deletephotosbutton) {
 			try {
 				for (ImageView img: addedImages) {
-					System.out.println(addedImages);
 					if(img.getEffect() != null) {
 						Alert alert = new Alert(AlertType.CONFIRMATION);
 						alert.setContentText("Are you sure you want to delete this photo?");
 						Optional<ButtonType> option = alert.showAndWait();
 						if(option.get().equals(ButtonType.OK)) {
-							System.out.println("Button = OK");
 							String selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
-							System.out.println(selectedalbum);
 							
 							int imindex = addedImages.indexOf(img);
 							String img_path = addedImageDetails.get(imindex).image_path;
@@ -312,7 +303,6 @@ public class MainAppController implements Serializable {
 									photocaption.setText("");
 									taglistview.setItems(null);
 									detsDict.get(selectedalbum).remove(i);
-									System.out.println("switch info?");
 									// change album info here
 									Date start_date=null;
 									Date end_date=null;
@@ -322,11 +312,9 @@ public class MainAppController implements Serializable {
 										Calendar temp_c = images.date_time;
 										Date temp_d = temp_c.getTime();
 										if(start_date == null || temp_d.before(start_date)) {
-											System.out.println("s");
 											start_date = temp_d;
 										}
 										if(end_date == null || temp_d.after(end_date)) {
-											System.out.println("e");
 											end_date = temp_d;
 										}
 									}
@@ -376,7 +364,6 @@ public class MainAppController implements Serializable {
 							// this runs before the image detail is updated in the controller for some reason
 							for(ImageDetails newDets: detsDict.get(albumlistview.getSelectionModel().getSelectedItem())) {
 								if(newDets.getPath().equals(deetz.getPath())) {
-									System.out.println("check?");
 									addedImageDetails.set(imindex, newDets);
 									Calendar cal = newDets.getCal();
 									Date capdatetime = cal.getTime();
@@ -417,32 +404,26 @@ public class MainAppController implements Serializable {
 					        javafx.collections.ListChangeListener.Change<? extends String> c) {
 					        while(c.next()) {
 					        	if(c.wasReplaced()) {
-					        		System.out.println("Removed: " + c.getRemoved());
-					        		System.out.println("Added: " + c.getAddedSubList());
 					        		ArrayList<ImageDetails> value = detsDict.get(c.getRemoved().get(0));
 					        		detsDict.remove(c.getRemoved().get(0));
 					        		detsDict.put(c.getAddedSubList().get(0), value);
 					        		
 					        	}
 					        	else if(c.wasAdded()) {
-					        		System.out.println("Added: " + c.getAddedSubList());
 					        		ArrayList<ImageDetails> value = new ArrayList<ImageDetails>();
 					        		detsDict.put(c.getAddedSubList().get(0), value);
 					        	}
 					        	else if(c.wasRemoved()) {
-					        		System.out.println("Removed: " + c.getRemoved());
 					        		detsDict.remove(c.getRemoved().get(0));
 					        	}
 					        	
 					        }
-					        System.out.println("Dictionary Keys:" + detsDict.keySet());
 					    }
 			});
 			
 			albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent mouseEvent) {
-					System.out.println("switch info?");
 					String temp_selectedAlb = albumlistview.getSelectionModel().getSelectedItem();
 					int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
 					albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
@@ -561,7 +542,6 @@ public class MainAppController implements Serializable {
 		else if(b == slideshowbutton) {
 			String albumname = albumlistview.getSelectionModel().getSelectedItem();
 			ArrayList<ImageDetails> photolist = detsDict.get(albumname);
-			System.out.println(photolist);
 			if(photolist.isEmpty()) {
 				Alert nophotos = new Alert(AlertType.ERROR);
 				nophotos.setContentText("No photos bruh!");
@@ -601,8 +581,6 @@ public class MainAppController implements Serializable {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(lastmoddate);
 				calendar.set(Calendar.MILLISECOND, 0);
-				System.out.println(calendar.getTime());
-				System.out.println(newphoto.getAbsolutePath());
 				//create an imagedetail with all the properties
 				ImageDetails newimagedetails = new ImageDetails(myphotopath, calendar, caps, tags);
 				addedImageDetails.add(newimagedetails);
@@ -622,7 +600,6 @@ public class MainAppController implements Serializable {
 				addedImages.add(newimage);
 				
 				detsDict.get(selectedalbum).add(newimagedetails);
-				System.out.println("Album contents:" + Arrays.toString(detsDict.get(selectedalbum).toArray()));
 				albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent mouseEvent) {
@@ -788,7 +765,6 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 						s_addedImageDetails.add(eachAD);
 					}
 					SerializableData data = new SerializableData(login,s_albumlistview, s_albuminfo_listview,s_addedImageDetails,detsDict);
-					System.out.println("Login:" + login);
 					Photos.writeApp(data,login);
 			
 				} catch (Exception e) {
@@ -799,7 +775,6 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 		
 		});
 	}
-	System.out.println(detsDict.toString());
 	albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
 		
 		@Override
@@ -807,7 +782,6 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 			mytilepane.getChildren().clear();
 			String temp_selectedAlb = albumlistview.getSelectionModel().getSelectedItem();
 			//int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
-			System.out.println("clicked on album?");
 			//albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
 			for(ImageDetails deetz: detsDict.get(temp_selectedAlb)) {
 				int imgindex =0;
@@ -827,7 +801,6 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 		albumlistview.getSelectionModel().select(0);
 		String temp_selectedAlb = albumlistview.getSelectionModel().getSelectedItem();
 		//int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
-		System.out.println("clicked on album?");
 		//albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
 		for(ImageDetails deetz: detsDict.get(temp_selectedAlb)) {
 			int imgindex =0;
@@ -869,7 +842,6 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 			s_addedImageDetails.add(eachAD);
 		}
 		SerializableData data = new SerializableData(login,s_albumlistview, s_albuminfo_listview,s_addedImageDetails,detsDict);
-		System.out.println("Login:" + login);
 		Photos.writeApp(data,login);
 		this.primaryStage = primaryStage;
 		FXMLLoader loader = new FXMLLoader();   

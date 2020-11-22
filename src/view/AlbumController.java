@@ -2,6 +2,7 @@ package view;
 
 import java.io.IOException;
 
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -57,7 +58,6 @@ public class AlbumController {
 			String newalbumname = createalbum_tf.getText();
 			//Is the album obs list empty? if so just add the album
 			if(albumobslist.isEmpty()) {
-				System.out.println(newalbumname);
 				albumobslist.add(newalbumname);
 				albuminfo_ObsList.add("empty");
 			}
@@ -143,15 +143,12 @@ public class AlbumController {
 		}
 			
 		albumlist.setItems(albumobslist);
-		System.out.println(albumobslist);
 		albuminfo_list.setItems(albuminfo_ObsList);
-		System.out.println(albuminfo_ObsList);
 	}
 		
 
 	public void start(Stage mainStage) {
 		this.mainStage = mainStage;
-		System.out.println(albumobslist);
 		
 		
 		

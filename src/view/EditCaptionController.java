@@ -2,6 +2,7 @@ package view;
 
 
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -89,7 +90,6 @@ public class EditCaptionController {
 	protected void buttonPress(ActionEvent event) throws IOException{
 		Button b = (Button)event.getSource();
 		if(b==confirmEdit) {
-			System.out.println("works?");
 			Alert inputNull = new Alert(AlertType.ERROR);
 			inputNull.setContentText("No Input found");
 			

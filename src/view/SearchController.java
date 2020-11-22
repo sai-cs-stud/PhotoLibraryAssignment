@@ -1,6 +1,7 @@
 package view;
 
 import java.io.FileInputStream;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,23 +60,16 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 	Set<String> albumkeys = deetzdictref.keySet();
 	ArrayList<ImageDetails> newalbumdeetz = new ArrayList<ImageDetails>();
 	try {
-	if(createbutton.isSelected()) {
-		System.out.println("Simplecheck");
-	}
 	if(b == datesearch) {
 		
 		for (String album : albumkeys) {
 			for(ImageDetails photo : deetzdictref.get(album)) {
 				Calendar photocal = photo.getCal();
 				Date photodate = photocal.getTime();
-				System.out.println(photodate);
-				System.out.println(df.format(photodate));
 				Date date1date = df.parse(date1.getText().trim() + " 00:00:00");
 				Date date2date = df.parse(date2.getText().trim() + " 00:00:00");
 				//if(date1d)
-				System.out.println(date1date);
 				if((photodate.after(date1date) && photodate.before(date2date))) {
-					System.out.println(date1date + " is after " + photodate + " and before " + photodate);
 					//make an image out of the photo path - put it on a photoview and add it to the pane shown?
 					String impath = photo.getPath();
 					Image newimage = new Image(new FileInputStream(impath));
@@ -94,7 +88,6 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 			}
 			}
 			if(createbutton.isSelected()) {
-				System.out.println("do i get here?");
 				makeAlbum(optalbname.getText().trim(), newalbumdeetz);
 				searchResultsDisplay(imageViews);	
 			
@@ -106,7 +99,6 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 		for (String album: albumkeys) {
 			for(ImageDetails photo : deetzdictref.get(album)) {
 				Hashtable<String, ArrayList<String>> tagdict = photo.getTags();
-				System.out.print(tagdict);
 				//person=sesh
 				String tag1text = tag1.getText().trim();
 				String[] tag1spliced = tag1text.split("=");
@@ -131,7 +123,6 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 			}
 		}
 		if(createbutton.isSelected()) {
-			System.out.println("do i get here?");
 			makeAlbum(optalbname.getText().trim(), newalbumdeetz);
 			searchResultsDisplay(imageViews);	
 		
@@ -171,7 +162,6 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 			}
 		}
 		if(createbutton.isSelected()) {
-			System.out.println("do i get here?");
 			makeAlbum(optalbname.getText().trim(), newalbumdeetz);
 			searchResultsDisplay(imageViews);	
 	}
@@ -210,7 +200,6 @@ protected void buttonPress(ActionEvent event) throws IOException, ParseException
 			}
 		}
 		if(createbutton.isSelected()) {
-			System.out.println("do i get here?");
 			makeAlbum(optalbname.getText().trim(), newalbumdeetz);
 			searchResultsDisplay(imageViews);	
 		
@@ -236,15 +225,12 @@ protected void searchResultsDisplay(ObservableList<ImageView> imageviewobs) thro
 	Stage searchResultsStage = (Stage)loader.load();
 	SearchResultsController searchrescon = loader.getController();
 	searchResultsStage.setTitle("Results");
-	System.out.println(imageviewobs);
 	searchrescon.addedImagesref = imageviewobs;
 	searchrescon.start(searchResultsStage);
 	searchResultsStage.show();
 }
 
 private void makeAlbum(String newalbumname, ArrayList<ImageDetails> imgdeetz) {
-	System.out.println("Test12345");
-	System.out.println(deetzdictref);
 	if(dupeCheck(imgdeetz) == false) {
 		albumobslist.add(newalbumname);
 		albumlist.setItems(albumobslist);
