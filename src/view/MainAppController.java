@@ -3,8 +3,11 @@ package view;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +17,7 @@ import java.util.Hashtable;
 import java.util.Optional;
 import java.util.Set;
 
+import app.Photos;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -57,6 +61,7 @@ public class MainAppController implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1511349364607780350L;
+
 	@FXML ListView<String> albumlistview;
 	@FXML ListView<String> albuminfo_listview;
 	@FXML ListView<String> taglistview;
@@ -76,16 +81,18 @@ public class MainAppController implements Serializable {
 	@FXML ScrollPane myscrollpane;
 	@FXML TilePane mytilepane;
 	
+	String login = "";
 	public boolean isStock = false;
 	private Stage mainStage;
 	private Stage primaryStage;
+	//ArrayList<SerializableData> userData = new ArrayList<SerializableData>();
 	ObservableList<String> albobslist;
 	ObservableList<String> albinfo_ObsList;
 	ImageView selectedImage;
 	ObservableList<ImageView> addedImages= FXCollections.observableArrayList();
 	ObservableList<ImageDetails> addedImageDetails = FXCollections.observableArrayList();
 	Hashtable<String,ArrayList<ImageDetails>> detsDict = new Hashtable<String,ArrayList<ImageDetails>>();
-	
+	//Hashtable<String,SerializableData> userDict = new Hashtable<String,SerializableData>();
 	FileChooser fil_chooser = new FileChooser();
 	
 	String pattern = "MM/dd/yyyy HH:mm:ss";
@@ -642,14 +649,135 @@ public class MainAppController implements Serializable {
 			albuminfo_listview.getSelectionModel().select(0);
 	}
 }
-public void start(Stage mainStage) {
+public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 	// TODO Auto-generated method stub
 	this.mainStage = mainStage;
 	albobslist = FXCollections.observableArrayList();
 	albinfo_ObsList = FXCollections.observableArrayList();
 	photocaption.setEditable(false);
 	photocaption.setWrapText(true);
-	if(isStock == true) {
+	//File check = new File(Photos.storeDir + File.separator + login + ".bin");
+	File check = new File(Photos.storeDir + File.separator + "photolib.bin");
+	if(check.length()==0) {
+		return;
+	}
+	SerializableData prevSess = Photos.readApp(login);
+	
+	if(prevSess==null) {
+		return;
+	}
+	albobslist.setAll(prevSess.albumlistview);
+	albinfo_ObsList.setAll(prevSess.albuminfo_listview);
+	albumlistview.setItems(albobslist);
+	albuminfo_listview.setItems(albinfo_ObsList);
+	addedImageDetails.setAll(prevSess.addedImagesDetails);
+	for(ImageDetails eachID: addedImageDetails) {
+		File retrieve = new File(eachID.image_path);
+		Image myphoto = new Image(new FileInputStream(retrieve),150, 0, true, true);
+		ImageView newimage = new ImageView(myphoto);
+		newimage.setFitWidth(150);
+		newimage.setFitHeight(mainStage.getHeight() - 10);
+		newimage.setPreserveRatio(true);
+		newimage.setSmooth(true);
+		newimage.setCache(true);
+		
+		mytilepane.setPadding(new Insets(15, 15, 15, 15));
+		mytilepane.setHgap(15);
+		mytilepane.getChildren().addAll(newimage);
+		addedImages.add(newimage);
+		detsDict = prevSess.dets_Dict;
+		newimage.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+					selectedImage = newimage;
+					newimage.setEffect(new DropShadow(15, Color.BLACK));
+					String temp_selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
+					for(ImageDetails image: detsDict.get(temp_selectedalbum)) {
+						int imindex = addedImages.indexOf(newimage);
+						ImageDetails deetz = addedImageDetails.get(imindex);
+						if(deetz.getPath().equals(image.getPath())) {
+							//System.out.println("works?");
+							Calendar cal = deetz.getCal();
+							Date capdatetime = cal.getTime();
+							photocaption.setText(null);
+							taglistview.setItems(null);
+							photocaption.setText("Last modified date: " + df.format(capdatetime) + "\n" + image.caption);
+							ObservableList<String> temp_tags = FXCollections.observableArrayList();
+							if(image.getTags()!=null) {
+								Hashtable<String,ArrayList<String>> tagsfromimage = image.getTags();
+								Set<String> tagkeys = tagsfromimage.keySet();
+								ArrayList<String> tagarraylist = new ArrayList<String>();
+								for(String key : tagkeys) {
+									for(String keyspecs : tagsfromimage.get(key)) {
+										String tagformat = key + ", " + keyspecs;
+										tagarraylist.add(tagformat);
+									}
+								}
+								temp_tags.addAll(tagarraylist);
+								taglistview.setItems(temp_tags);
+							}
+						}}
+					for(ImageView image: addedImages) {
+						if(image!=newimage) {
+							if(image.getEffect()!=null) {
+								image.setEffect(null);
+							}
+						}
+					}
+				}
+				else {
+					newimage.setEffect(null);
+					photocaption.setText("");
+					taglistview.setItems(null);
+				}
+			}
+		});
+	}
+	System.out.println(detsDict.toString());
+	albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		
+		@Override
+		public void handle(MouseEvent mouseEvent) {
+			mytilepane.getChildren().clear();
+			String temp_selectedAlb = albumlistview.getSelectionModel().getSelectedItem();
+			//int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
+			System.out.println("clicked on album?");
+			//albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
+			for(ImageDetails deetz: detsDict.get(temp_selectedAlb)) {
+				int imgindex =0;
+				for(ImageDetails master_dets : addedImageDetails) {
+					if(master_dets==deetz) {
+						mytilepane.getChildren().addAll(addedImages.get(imgindex));
+					}
+					imgindex++;
+				}
+			}
+			int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
+			albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
+		}
+	});
+	if(albobslist.isEmpty() == false) {
+		mytilepane.getChildren().clear();
+		albumlistview.getSelectionModel().select(0);
+		String temp_selectedAlb = albumlistview.getSelectionModel().getSelectedItem();
+		//int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
+		System.out.println("clicked on album?");
+		//albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
+		for(ImageDetails deetz: detsDict.get(temp_selectedAlb)) {
+			int imgindex =0;
+			for(ImageDetails master_dets : addedImageDetails) {
+				if(master_dets==deetz) {
+					mytilepane.getChildren().addAll(addedImages.get(imgindex));
+				}
+				imgindex++;
+			}
+		}
+		int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
+		albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
+	
+	}
+	/*if(isStock == true) {
 		try {
 		ArrayList <ImageDetails> stock = new ArrayList<ImageDetails>();
 		detsDict.put("Stock", stock);
@@ -666,9 +794,18 @@ public void start(Stage mainStage) {
 		catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 }
 	private void LoginStage(Stage primaryStage) throws IOException {
+		ArrayList<String> s_albumlistview = new ArrayList<String>(albumlistview.getItems());
+		ArrayList<String> s_albuminfo_listview = new ArrayList<String>(albuminfo_listview.getItems());
+		ArrayList<ImageDetails> s_addedImageDetails = new ArrayList<ImageDetails>();
+		for(ImageDetails eachAD: addedImageDetails) {
+			s_addedImageDetails.add(eachAD);
+		}
+		SerializableData data = new SerializableData(login,s_albumlistview, s_albuminfo_listview,s_addedImageDetails,detsDict);
+		System.out.println("Login:" + login);
+		Photos.writeApp(data,login);
 		this.primaryStage = primaryStage;
 		FXMLLoader loader = new FXMLLoader();   
 		loader.setLocation(
@@ -767,7 +904,5 @@ public void start(Stage mainStage) {
 		searchcon.start(searchStage);
 		searchStage.show();
 	}
-	
-	
 	
 }

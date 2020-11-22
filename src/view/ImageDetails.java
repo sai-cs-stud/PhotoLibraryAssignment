@@ -1,10 +1,15 @@
 package view;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 
-public class ImageDetails {
+public class ImageDetails implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String image_path;
 	Calendar date_time;
 	String caption;

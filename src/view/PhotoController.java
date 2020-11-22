@@ -11,9 +11,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import app.Photos;
 import javafx.event.ActionEvent;
 import javafx.scene.text.Text;
 
@@ -24,9 +26,9 @@ public class PhotoController {
 	@FXML private TextField userinputbar;
 	private Stage mainStage;
 	private boolean isStock = false;
-	
-	@FXML protected void login(ActionEvent event) {
-		String logininput = userinputbar.getText();
+	String logininput;
+	@FXML protected void login(ActionEvent event) throws ClassNotFoundException {
+		logininput = userinputbar.getText();
 		System.out.println(logininput);
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(
@@ -46,6 +48,8 @@ public class PhotoController {
 						if(logininput.equals("stock")) {
 							isStock = true;
 						}
+						//File file = new File(Photos.storeDir + File.separator + logininput + ".bin");
+						//file.createNewFile();
 						mainAppStage();
 						break;
 						
@@ -91,7 +95,7 @@ public class PhotoController {
 	    
 	}  
 	
-	private void mainAppStage() throws IOException {
+	private void mainAppStage() throws IOException, ClassNotFoundException {
 		System.out.println("Does this work?");
 		mainStage.hide();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/mainapp.fxml"));
@@ -99,10 +103,10 @@ public class PhotoController {
 	    MainAppController mainAppController = 
 				loader.getController();
 	    appStage.setTitle("App menu");
-	    mainAppController.isStock = isStock;
+	    //mainAppController.isStock = isStock;
+	    mainAppController.login = logininput;
 		mainAppController.start(appStage);
 	    appStage.show();
-		
 		
 		
 	}
