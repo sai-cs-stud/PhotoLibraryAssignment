@@ -298,7 +298,11 @@ public class MainAppController implements Serializable {
 						if(option.get().equals(ButtonType.OK)) {
 							System.out.println("Button = OK");
 							String selectedalbum = albumlistview.getSelectionModel().getSelectedItem();
+							System.out.println(selectedalbum);
 							int imindex = addedImages.indexOf(img);
+							System.out.println("pass thru here");
+							System.out.println("wya: "+detsDict.get(selectedalbum).get(imindex));
+							System.out.println("pass thru here2");
 							detsDict.get(selectedalbum).remove(imindex);
 							addedImages.remove(img);
 							addedImageDetails.remove(imindex);

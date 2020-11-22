@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Hashtable;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +23,6 @@ import javafx.stage.Stage;
 
 import view.PhotoController;
 import view.SerializableData;
-import view.SerializeArr;
 
 public class Photos extends Application implements Serializable{
 	/**
