@@ -834,7 +834,6 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 	
 	}
 	if(isStock == true) {
-		System.out.println("y");
 		try {
 			if(albobslist.isEmpty()) {
 		ArrayList <ImageDetails> stock = new ArrayList<ImageDetails>();
@@ -867,6 +866,9 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 		//add_stock("data/street_cat.jpg");
 		add_stock("data/screenshot.png");
 		add_stock("data/screenshot2.png");
+		add_stock("data/screenshot3.png");
+		add_stock("data/screenshot4.jpg");
+		add_stock("data/screenshot5.png");
 			}
 		}
 		catch(FileNotFoundException e) {
