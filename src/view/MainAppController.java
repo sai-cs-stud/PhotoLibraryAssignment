@@ -59,6 +59,11 @@ import javafx.scene.input.MouseEvent;
 public class MainAppController implements Serializable {
 	
 	/**
+	 * @author Nicolas Gundersen neg62
+	 * @author Sai Nayan Malladi srm275
+	 * {@summary} the MainAppController serves as the main hub of the application
+	 * For most buttons, there is a seperate controller that displays a menu.
+	 * Every time an action is evoked onto the application, the mainapp is updated accordingly
 	 * 
 	 */
 	private static final long serialVersionUID = -1511349364607780350L;
@@ -186,10 +191,8 @@ public class MainAppController implements Serializable {
 							end_date = temp_d;
 						}
 					}
-					//albuminfo_listview.getSelectionModel().select(selectedalbum);
 					//reset album info here
-					int albuminfo_index = albumlistview.getSelectionModel().getSelectedIndex();
-					System.out.println(albuminfo_index);
+					int albuminfo_index = albuminfo_listview.getSelectionModel().getSelectedIndex();
 					if(start_date != null && end_date != null) {
 						albinfo_ObsList.set(albuminfo_index, tot_imgs + " image(s) from " + df.format(start_date) + "-" + df.format(end_date));
 					}
@@ -679,46 +682,6 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 	photocaption.setWrapText(true);
 	File check = new File(Photos.storeDir + File.separator + login + ".bin");
 	//File check = new File(Photos.storeDir + File.separator + "photolib.bin");
-	if(isStock == true) {
-		System.out.println("y");
-		try {
-			if(albobslist.isEmpty()) {
-		ArrayList <ImageDetails> stock = new ArrayList<ImageDetails>();
-		detsDict.put("Stock", stock);
-		albobslist.add("Stock");
-		// change album info here
-		Date start_date=null;
-		Date end_date=null;
-		int tot_imgs = detsDict.get("Stock").size();
-		for(ImageDetails images : detsDict.get("Stock")) {
-			//compare start and end dates and update albuminfolistview here
-			Calendar temp_c = images.date_time;
-			Date temp_d = temp_c.getTime();
-			if(start_date == null || temp_d.before(start_date)) {
-				start_date = temp_d;
-			}
-			if(end_date == null || temp_d.after(end_date)) {
-				end_date = temp_d;
-			}
-		}
-		//reset album info here
-		int albuminfo_index = albuminfo_listview.getSelectionModel().getSelectedIndex();
-		if(start_date != null && end_date != null) {
-			albinfo_ObsList.set(albuminfo_index, tot_imgs + " image(s) from " + df.format(start_date) + "-" + df.format(end_date));
-		}
-		albumlistview.setItems(albobslist);
-		albuminfo_listview.setItems(albinfo_ObsList);
-		//add_stock("data/deer.jpg");
-		//add_stock("data/some_map.PNG");
-		//add_stock("data/street_cat.jpg");
-		add_stock("data/screenshot.png");
-		add_stock("data/screenshot2.png");
-			}
-		}
-		catch(FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
 	if(check.length()==0) {
 		return;
 	}
@@ -856,6 +819,47 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 		}
 		int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
 		albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
+	
+	}
+	if(isStock == true) {
+		System.out.println("y");
+		try {
+			if(albobslist.isEmpty()) {
+		ArrayList <ImageDetails> stock = new ArrayList<ImageDetails>();
+		detsDict.put("Stock", stock);
+		albobslist.add("Stock");
+		// change album info here
+		Date start_date=null;
+		Date end_date=null;
+		int tot_imgs = detsDict.get("Stock").size();
+		for(ImageDetails images : detsDict.get("Stock")) {
+			//compare start and end dates and update albuminfolistview here
+			Calendar temp_c = images.date_time;
+			Date temp_d = temp_c.getTime();
+			if(start_date == null || temp_d.before(start_date)) {
+				start_date = temp_d;
+			}
+			if(end_date == null || temp_d.after(end_date)) {
+				end_date = temp_d;
+			}
+		}
+		//reset album info here
+		int albuminfo_index = albuminfo_listview.getSelectionModel().getSelectedIndex();
+		if(start_date != null && end_date != null) {
+			albinfo_ObsList.set(albuminfo_index, tot_imgs + " image(s) from " + df.format(start_date) + "-" + df.format(end_date));
+		}
+		albumlistview.setItems(albobslist);
+		albuminfo_listview.setItems(albinfo_ObsList);
+		//add_stock("data/deer.jpg");
+		//add_stock("data/some_map.PNG");
+		//add_stock("data/street_cat.jpg");
+		add_stock("data/screenshot.png");
+		add_stock("data/screenshot2.png");
+			}
+		}
+		catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 }
 	private void LoginStage(Stage primaryStage) throws IOException {

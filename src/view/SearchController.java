@@ -29,6 +29,14 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 public class SearchController {
+	/**
+	 *  @author Nicolas Gundersen neg62
+	 *  @author Sai Nayan Malladi srm275
+	 *  {@summary} The SearchController serves as the menu for the Search Photos button
+	 *  The user can search by either Date range, tag1, tag1 AND tag2, tag1 OR tag2. The user 
+	 *  then has the option to make an album out of the photos. If there is a duplicate in the 
+	 *  new album, the createalbum action is interrupted
+	 */
 
 @FXML TextField date1;
 @FXML TextField date2;

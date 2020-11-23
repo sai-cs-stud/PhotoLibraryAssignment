@@ -9,7 +9,10 @@ import java.util.Hashtable;
 public class SerializableData implements Serializable{
 
 	/**
+	 * @author Sai Nayan Malladi srm275
+	 * @author Nicolas Gundersen neg62
 	 * 
+	 * {@summary} The serialzeddData class serves as a holder for all of our Serialized Objects
 	 */
 	private static final long serialVersionUID = 1L;
 	String login = "";
