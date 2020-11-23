@@ -845,11 +845,11 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 		}
 		albumlistview.setItems(albobslist);
 		albuminfo_listview.setItems(albinfo_ObsList);
-		add_stock("data/deer.jpg");
-		add_stock("data/some_map.PNG");
-		add_stock("data/street_cat.jpg");
-		add_stock("data/Telugu.PNG");
-		add_stock("data/very_handsome_guy.jpg");
+		//add_stock("data/deer.jpg");
+		//add_stock("data/some_map.PNG");
+		//add_stock("data/street_cat.jpg");
+		add_stock("data/screenshot.png");
+		add_stock("data/screenshot2.png");
 			}
 		}
 		catch(FileNotFoundException e) {

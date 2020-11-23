@@ -6,8 +6,13 @@ import java.util.Calendar;
 import java.util.Hashtable;
 
 public class ImageDetails implements Serializable{
-	/**
-	 * 
+	/** @author Nicolas Gundersen neg62
+	 *  @author nickygundersen
+	 *  
+	 *  {@summary}The imageDetails class serves as the backend information that every image needs including
+	 *  its constructor. The relevant info for each image are the imagepath, the date_time, its caption, and 
+	 *  a hashtable containing its tags. The hashtable makes searching for tags easier
+	 *  
 	 */
 	private static final long serialVersionUID = 1L;
 	String image_path;
