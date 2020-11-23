@@ -104,6 +104,7 @@ public class PhotoController {
 	    appStage.setTitle("App menu");
 	    //mainAppController.isStock = isStock;
 	    mainAppController.login = logininput;
+	    mainAppController.isStock = isStock;
 		mainAppController.start(appStage);
 	    appStage.show();
 		
