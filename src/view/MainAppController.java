@@ -577,9 +577,9 @@ public class MainAppController implements Serializable {
 				Hashtable<String,ArrayList<String>> tags = new Hashtable<String,ArrayList<String>>();
 				String caps = null;
 
-				Date lastmoddate = new Date(newphoto.lastModified());
+				Date s_lastmoddate = new Date(newphoto.lastModified());
 				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(lastmoddate);
+				calendar.setTime(s_lastmoddate);
 				calendar.set(Calendar.MILLISECOND, 0);
 				//create an imagedetail with all the properties
 				ImageDetails newimagedetails = new ImageDetails(myphotopath, calendar, caps, tags);
@@ -816,12 +816,32 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 		albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
 	
 	}
-	/*if(isStock == true) {
+	if(isStock == true) {
 		try {
+			if(albobslist.isEmpty()) {
 		ArrayList <ImageDetails> stock = new ArrayList<ImageDetails>();
 		detsDict.put("Stock", stock);
 		albobslist.add("Stock");
-		albinfo_ObsList.add("filler for now");
+		// change album info here
+		Date start_date=null;
+		Date end_date=null;
+		int tot_imgs = detsDict.get("Stock").size();
+		for(ImageDetails images : detsDict.get("Stock")) {
+			//compare start and end dates and update albuminfolistview here
+			Calendar temp_c = images.date_time;
+			Date temp_d = temp_c.getTime();
+			if(start_date == null || temp_d.before(start_date)) {
+				start_date = temp_d;
+			}
+			if(end_date == null || temp_d.after(end_date)) {
+				end_date = temp_d;
+			}
+		}
+		//reset album info here
+		int albuminfo_index = albuminfo_listview.getSelectionModel().getSelectedIndex();
+		if(start_date != null && end_date != null) {
+			albinfo_ObsList.set(albuminfo_index, tot_imgs + " image(s) from " + df.format(start_date) + "-" + df.format(end_date));
+		}
 		albumlistview.setItems(albobslist);
 		albuminfo_listview.setItems(albinfo_ObsList);
 		add_stock("data/deer.jpg");
@@ -829,11 +849,12 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 		add_stock("data/street_cat.jpg");
 		add_stock("data/Telugu.PNG");
 		add_stock("data/very_handsome_guy.jpg");
+			}
 		}
 		catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 }
 	private void LoginStage(Stage primaryStage) throws IOException {
 		ArrayList<String> s_albumlistview = new ArrayList<String>(albumlistview.getItems());
