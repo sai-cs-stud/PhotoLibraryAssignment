@@ -186,8 +186,10 @@ public class MainAppController implements Serializable {
 							end_date = temp_d;
 						}
 					}
+					//albuminfo_listview.getSelectionModel().select(selectedalbum);
 					//reset album info here
-					int albuminfo_index = albuminfo_listview.getSelectionModel().getSelectedIndex();
+					int albuminfo_index = albumlistview.getSelectionModel().getSelectedIndex();
+					System.out.println(albuminfo_index);
 					if(start_date != null && end_date != null) {
 						albinfo_ObsList.set(albuminfo_index, tot_imgs + " image(s) from " + df.format(start_date) + "-" + df.format(end_date));
 					}
