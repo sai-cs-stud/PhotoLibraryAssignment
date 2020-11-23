@@ -26,6 +26,13 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class DisplayPhotoController {
+	/**
+	 * @author Nicolas Gundersen neg62
+	 * @author Sai Nayan Malladi srm275
+	 * 
+	 * @author nickygundersen The displawy photo controller serves as the window
+	 * for the displayphoto button, that displays the photo, caption, and tags of a photo
+	 */
 	@FXML AnchorPane anchorpane;
 	@FXML TilePane photopane;
 	@FXML Label date_time;

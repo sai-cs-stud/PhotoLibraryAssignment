@@ -1,9 +1,4 @@
-// Sai Nayan Malladi srm275
-// Nicolas Gundersen neg62
-// CS 213 Software Methodology 
-// Sesh
 
-// THe ListApp class serves as the main launcher of our GUI program. 
 package app;
 
 import java.io.File;
@@ -26,7 +21,10 @@ import view.SerializableData;
 
 public class Photos extends Application implements Serializable{
 	/**
+	 * @author Nicolas Gundersen neg62
+	 * @author Sai Nayan Malladi
 	 * 
+	 * {@summary} The Photos class serves as the main launcher of the GUI program
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final String storeDir= "src/model";

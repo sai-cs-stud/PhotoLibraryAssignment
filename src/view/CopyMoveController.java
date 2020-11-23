@@ -16,6 +16,14 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 public class CopyMoveController {
+	/**
+	 * @author Nicolas Gundersen neg62
+	 * @author Sai Nayan Malladi srm275
+	 * 
+	 * {@summary} The CopyMoveController serves as the menu for the Copy/Move Photo
+	 * This menu allows you to copy and image from one album, to another. Or just move the photo,
+	 * deleting it from the source
+	 */
 @FXML TextField albinput;
 @FXML Button movbutton;
 @FXML Button copybutton;
