@@ -426,7 +426,19 @@ public class MainAppController implements Serializable {
 			albumlistview.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent mouseEvent) {
+					mytilepane.getChildren().clear();
 					String temp_selectedAlb = albumlistview.getSelectionModel().getSelectedItem();
+					//int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
+					//albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
+					for(ImageDetails deetz: detsDict.get(temp_selectedAlb)) {
+						int imgindex =0;
+						for(ImageDetails master_dets : addedImageDetails) {
+							if(master_dets==deetz) {
+								mytilepane.getChildren().addAll(addedImages.get(imgindex));
+							}
+							imgindex++;
+						}
+					}
 					int temp_selectedAlbindex = albumlistview.getSelectionModel().getSelectedIndex();
 					albuminfo_listview.getSelectionModel().select(temp_selectedAlbindex);
 				}
