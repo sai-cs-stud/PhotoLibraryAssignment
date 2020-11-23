@@ -15,6 +15,12 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class SearchResultsController {
+	/**
+	 *  @author Nicolas Gundersen neg62
+	 *  @author Sai Nayan Malladi srm275
+	 *  The SearchDisplayController serves as a separate display for the serach results
+	 * 
+	 */
 @FXML ScrollPane myscrollpane;
 @FXML TilePane mytilepane;
 @FXML AnchorPane anchorpane;
