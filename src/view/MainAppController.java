@@ -189,7 +189,7 @@ public class MainAppController implements Serializable {
 					//albuminfo_listview.getSelectionModel().select(selectedalbum);
 					//reset album info here
 					int albuminfo_index = albumlistview.getSelectionModel().getSelectedIndex();
-					System.out.println(albuminfo_index);
+					//System.out.println(albuminfo_index);
 					if(start_date != null && end_date != null) {
 						albinfo_ObsList.set(albuminfo_index, tot_imgs + " image(s) from " + df.format(start_date) + "-" + df.format(end_date));
 					}
@@ -408,7 +408,10 @@ public class MainAppController implements Serializable {
 					        	if(c.wasReplaced()) {
 					        		ArrayList<ImageDetails> value = detsDict.get(c.getRemoved().get(0));
 					        		detsDict.remove(c.getRemoved().get(0));
+					        		try {
 					        		detsDict.put(c.getAddedSubList().get(0), value);
+					        		}
+					        		catch(NullPointerException np) {}
 					        		
 					        	}
 					        	else if(c.wasAdded()) {
@@ -692,7 +695,6 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 	File check = new File(Photos.storeDir + File.separator + login + ".bin");
 	//File check = new File(Photos.storeDir + File.separator + "photolib.bin");
 	if(isStock == true) {
-		System.out.println("y");
 		try {
 			if(albobslist.isEmpty()) {
 		ArrayList <ImageDetails> stock = new ArrayList<ImageDetails>();
