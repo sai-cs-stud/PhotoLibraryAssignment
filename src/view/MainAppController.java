@@ -817,6 +817,7 @@ public void start(Stage mainStage) throws ClassNotFoundException, IOException {
 	
 	}
 	if(isStock == true) {
+		System.out.println("y");
 		try {
 			if(albobslist.isEmpty()) {
 		ArrayList <ImageDetails> stock = new ArrayList<ImageDetails>();
