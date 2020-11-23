@@ -28,7 +28,12 @@ import javafx.stage.WindowEvent;
 
 @SuppressWarnings("unused")
 public class AdminController {
-
+	/**
+	 * 	@author Nicolas Gundersen neg62
+	 *  @author Sai Nayan Malladi
+	 *  {@summary}AdminController.java serves as the admin page for the userlogin. 
+	 *  From here the user can add and delete users. Relies on a UserData.txt
+	 */
 	@FXML
 	private TextField userinputbar;
 	@FXML

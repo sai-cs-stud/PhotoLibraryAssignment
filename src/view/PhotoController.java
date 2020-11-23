@@ -23,7 +23,12 @@ import javafx.scene.text.Text;
 
 @SuppressWarnings("unused")
 public class PhotoController {
-
+	/**
+	 *  @author Nicolas Gundersen neg62
+	 *  @author Sai Nayan Malladi srm275
+	 *  {@summary} The photocontroller is really the 'logincontroller', but the application is launched form photos.java
+	 *  The PhotoController processes login inputs and directs the user to the correct display accordinggly.
+	 */
 	@FXML private AnchorPane anchor;
 	@FXML private TextField userinputbar;
 	private Stage mainStage;

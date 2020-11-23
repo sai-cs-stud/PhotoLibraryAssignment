@@ -30,6 +30,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class EditCaptionController {
+	/**
+	 * @author Sai Nayan Malladi srm275
+	 * @author Nicolas Gundersen neg62
+	 * 
+	 * {@summary}The editCaptionController serves as the menu for the editcaption button. Which displays the thumbnail of the 
+	 * image and allows a user to change the caption of a photo
+	 */
 	@FXML TilePane photopane;
 	@FXML Button confirmEdit;
 	@FXML TextField input;

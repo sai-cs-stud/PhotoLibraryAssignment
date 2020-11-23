@@ -20,8 +20,13 @@ import javafx.stage.WindowEvent;
 
 @SuppressWarnings("unused")
 public class AlbumController {
-	
-	
+	/**
+	 * @author Nicolas Gundersen neg62
+	 * @author Sai Nayan Malladi srm275
+	 * 
+	 * The AlbumController serves as the menu for the 'Edit Menu' button.
+	 * The 3 actions are either add an album, delete and album, or rename an album
+	 */
 	
 	@FXML TextField createalbum_tf;
 	@FXML TextField deletealbum_tf;

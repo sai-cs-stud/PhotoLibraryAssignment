@@ -16,6 +16,13 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class slideshowController {
+	/**
+	 * @author Nicolas Gundersen neg62
+	 * @author Sai Nayan Malladi srm275
+	 * 
+	 * {@summary} The slideshowController serves as the menu for the slideshowbutton
+	 * It loads the selected album and allows the user to go forward/backwards 
+	 */
 	@FXML Button backbutton;
 	@FXML Button forwardbutton;
 	@FXML Pane mypane;
